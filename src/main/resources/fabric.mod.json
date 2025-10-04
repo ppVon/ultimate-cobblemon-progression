@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "ultimate-cobblemon-progression",
+  "version": "${version}",
+  "name": "Ultimate Cobblemon Progression",
+  "description": "Completely changes the progresion in cobblemon",
+  "authors": [
+    "ppVon"
+  ],
+  "license": "MIT License",
+  "icon": "icon.png",
+  "environment": "*",
+  "custom": {
+    "cardinal-components": [
+      "ultimate-cobblemon-progression:trainer_level"
+    ]
+  },
+  "entrypoints": {
+    "main": [
+      "org.ppvon.ultimateCobblemonProgression.UltimateCobblemonProgression"
+    ],
+    "cardinal-components-entity": [
+      "org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents"
+    ],
+    "modmenu": [
+      "org.ppvon.ultimateCobblemonProgression.client.ModMenuIntegration"
+    ]
+  },
+  "depends": {
+    "minecraft": "1.21.1",
+    "cobblemon": ">=1.6.0"
+  }
+}
