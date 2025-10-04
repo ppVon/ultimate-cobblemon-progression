@@ -6,7 +6,6 @@ import net.mehvahdjukaar.moonlight.api.platform.configs.ModConfigHolder;
 import net.mehvahdjukaar.moonlight.api.platform.configs.fabric.FabricConfigListScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.ppvon.ultimateCobblemonProgression.UltimateCobblemonProgression;
