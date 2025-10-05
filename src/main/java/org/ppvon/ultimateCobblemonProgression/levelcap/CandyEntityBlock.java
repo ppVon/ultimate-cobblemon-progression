@@ -1,6 +1,5 @@
 package org.ppvon.ultimateCobblemonProgression.levelcap;
 
-// CandyEntityBlock.java
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
@@ -10,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents;

@@ -1,13 +1,11 @@
 package org.ppvon.ultimateCobblemonProgression.levelcap;
 
-// ExpCapListener.java
 import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponentImpl;
 import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents;
 import org.ppvon.ultimateCobblemonProgression.tiers.TierRegistry;
 

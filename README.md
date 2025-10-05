@@ -109,6 +109,46 @@ data/ultimate-cobblemon-progression/tiers/
 
 > You can structure tiers as you like per namespace; the mod only requires that it can resolve a tier → species list and a level cap for that tier.
 
+The default tiers are auto-generated via a script that organizes mons by Base Stat Total:
+
+| Tier | Boundaries (BST Range) | Pokémon Count | Level cap |
+|------|------------------------|----------------|--------|
+| 1 | [175, 305] | 214 | 15 |
+| 2 | (305, 354] | 186 | 27 |
+| 3 | (354, 440] | 200 | 40 |
+| 4 | (440, 475] | 214 | 54 |
+| 5 | (475, 500] | 186 | 69 |
+| 6 | (500, 570] | 244 | 85 |
+| 7 | (570, 1125] | 155 | 100 |
+
+The default data includes species from the following addons and sidemods, but the mod itself does not require them:
+- Myths and Legends
+- Complete Cobblemon Collection + Myths and Legends
+- Mega Showdown
+- MysticMons
+
+And some fun stats about Pokemon BST:
+
+**Total Pokémon:** 1399
+
+| Metric | Value |
+|--------|--------|
+| **BST Range** | 175 – 1125 |
+| **Mean** | 442.62 |
+| **Median** | 472.00 |
+| **Standard Deviation** | 116.98 |
+
+**Percentiles**
+
+| Percentile | BST |
+|-------------|-----|
+| 10th | 290 |
+| 25th | 336 |
+| 50th (Median) | 472 |
+| 75th | 514 |
+| 90th | 580 |
+
+
 ---
 
 ## Configuration
