@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class TrainerLevelInfluenceRegistrar {
     private static final Function1<ServerPlayer, SpawningInfluence> TL_BUILDER =
-            sp -> new TrainerLevelInfluence();  // Java lambda implements Function1's invoke(T)
+            sp -> new TrainerLevelInfluence();
 
     private static boolean registered = false;
 
@@ -15,7 +15,7 @@ public class TrainerLevelInfluenceRegistrar {
         if (registered) return;
         var list = PlayerSpawnerFactory.INSTANCE.getInfluenceBuilders();
         if (!list.contains(TL_BUILDER)) {
-            list.addFirst(TL_BUILDER);                  // run earliest
+            list.addFirst(TL_BUILDER);
         }
         registered = true;
     }

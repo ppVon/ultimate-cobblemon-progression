@@ -50,6 +50,10 @@ public final class TierRegistry {
         return SPECIES_MIN_TIER.getOrDefault(speciesId, Integer.MAX_VALUE);
     }
 
+    public static int getCapForTier(int tier) {
+        return BY_TIER.get(tier).levelCap;
+    }
+
     public static OptionalInt tryParseTierIndex(String pathNoFolders) {
         Matcher m = TIER_NAME.matcher(pathNoFolders);
         if (!m.matches()) return OptionalInt.empty();

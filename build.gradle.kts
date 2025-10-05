@@ -43,6 +43,7 @@ dependencies {
     modImplementation(fabricApi.module("fabric-lifecycle-events-v1", "0.104.0+1.21.1"))
     modImplementation(fabricApi.module("fabric-networking-api-v1", "0.104.0+1.21.1"))
     modImplementation(fabricApi.module("fabric-entity-events-v1", "0.104.0+1.21.1"))
+    modImplementation(fabricApi.module("fabric-events-interaction-v0", "0.104.0+1.21.1"))
 
     modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130")
     modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130") // optional if you don't directly compile against it

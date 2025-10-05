@@ -16,8 +16,6 @@ public final class ModMenuIntegration implements ModMenuApi {
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return (Screen parent) -> {
             CommonConfig.init();
-            // If your config is COMMON or COMMON_SYNCED, this will still open clientside
-            // editor for that file. For client-only configs, you’d build a separate holder with ConfigType.CLIENT.
             ModConfigHolder[] holder = {
                     CommonConfig.HOLDER
             };

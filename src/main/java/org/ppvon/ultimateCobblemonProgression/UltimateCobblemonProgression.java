@@ -12,6 +12,9 @@ import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents;
 
 import org.ppvon.ultimateCobblemonProgression.config.CommonConfig;
 import org.ppvon.ultimateCobblemonProgression.influence.TrainerLevelInfluenceRegistrar;
+import org.ppvon.ultimateCobblemonProgression.levelcap.CandyEntityBlock;
+import org.ppvon.ultimateCobblemonProgression.levelcap.CandyRefund;
+import org.ppvon.ultimateCobblemonProgression.levelcap.ExpCapListener;
 import org.ppvon.ultimateCobblemonProgression.tiers.TierDataLoader;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -68,6 +71,10 @@ public class UltimateCobblemonProgression implements ModInitializer {
         TrainerLevelInfluenceRegistrar.registerOnce();
         LOG.info("Trainer level influence registered");
         TierDataLoader.register();
+
+        CandyEntityBlock.register();
+        CandyRefund.register();
+        ExpCapListener.register();
         LOG.info("Done Loading");
     }
 }
