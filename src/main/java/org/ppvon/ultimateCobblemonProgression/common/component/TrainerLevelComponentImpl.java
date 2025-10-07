@@ -1,12 +1,9 @@
-package org.ppvon.ultimateCobblemonProgression.component;
+package org.ppvon.ultimateCobblemonProgression.common.component;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
-import org.ppvon.ultimateCobblemonProgression.UltimateCobblemonProgression;
 
 public class TrainerLevelComponentImpl implements TrainerLevelComponent, AutoSyncedComponent {
     private int level = 1;

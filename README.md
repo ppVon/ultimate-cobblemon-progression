@@ -25,7 +25,7 @@ UCP works through two main parts:
 ## Features
 
 ### Trainer Level → Progression Tier
-Your **trainer level** maps to a **progression tier** (defined in data). Tiers control which Pokémon can spawn and what their cap/level distribution looks like.
+Your **trainer level** maps to a **progression tier** (defined in data). Tiers control which Pokémon can spawn, what level they spawn at, and what level party pokemon can achieve.
 
 ### Spawnability (Tier‑Gated Species)
 - Tier files define what **species** unlock at each tier.

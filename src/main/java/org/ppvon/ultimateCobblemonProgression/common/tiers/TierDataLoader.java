@@ -1,5 +1,5 @@
 // src/main/java/.../tiers/TierDataLoader.java
-package org.ppvon.ultimateCobblemonProgression.tiers;
+package org.ppvon.ultimateCobblemonProgression.common.tiers;
 
 import com.google.gson.*;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;

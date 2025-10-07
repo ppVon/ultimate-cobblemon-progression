@@ -20,7 +20,7 @@
       "org.ppvon.ultimateCobblemonProgression.UltimateCobblemonProgression"
     ],
     "cardinal-components-entity": [
-      "org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents"
+      "org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents"
     ],
     "modmenu": [
       "org.ppvon.ultimateCobblemonProgression.client.ModMenuIntegration"

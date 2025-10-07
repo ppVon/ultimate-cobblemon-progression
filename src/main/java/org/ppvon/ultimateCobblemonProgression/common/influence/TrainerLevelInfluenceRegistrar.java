@@ -1,4 +1,4 @@
-package org.ppvon.ultimateCobblemonProgression.influence;
+package org.ppvon.ultimateCobblemonProgression.common.influence;
 
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence;
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory;

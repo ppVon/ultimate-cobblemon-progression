@@ -1,4 +1,4 @@
-package org.ppvon.ultimateCobblemonProgression.influence;
+package org.ppvon.ultimateCobblemonProgression.common.influence;
 
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -18,9 +18,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
-import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents;
+import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 import org.ppvon.ultimateCobblemonProgression.config.CommonConfig;
-import org.ppvon.ultimateCobblemonProgression.tiers.TierRegistry;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 
 import java.util.function.Supplier;
 

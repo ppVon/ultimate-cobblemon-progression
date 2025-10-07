@@ -1,4 +1,4 @@
-package org.ppvon.ultimateCobblemonProgression.levelcap;
+package org.ppvon.ultimateCobblemonProgression.common.levelcap;
 
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.core.registries.BuiltInRegistries;

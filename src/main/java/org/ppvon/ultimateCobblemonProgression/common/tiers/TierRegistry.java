@@ -1,4 +1,4 @@
-package org.ppvon.ultimateCobblemonProgression.tiers;
+package org.ppvon.ultimateCobblemonProgression.common.tiers;
 
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;

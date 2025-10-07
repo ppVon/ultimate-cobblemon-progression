@@ -6,7 +6,17 @@ plugins {
 }
 
 group = "org.ppvon"
-version = "1.0.0-SNAPSHOT"
+version = "1.1.0"
+val minecraftVersion = "1.21.1"
+
+base {
+    archivesName.set("ucp-fabric+mc${minecraftVersion}");
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 architectury {
     platformSetupLoomIde()
@@ -46,7 +56,7 @@ dependencies {
     modImplementation(fabricApi.module("fabric-events-interaction-v0", "0.104.0+1.21.1"))
 
     modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130")
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130") // optional if you don't directly compile against it
+    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130")
 
     modImplementation("net.fabricmc:fabric-language-kotlin:1.12.3+kotlin.2.0.21")
     modImplementation("com.cobblemon:fabric:1.6.0+1.21.1-SNAPSHOT")
@@ -79,4 +89,13 @@ tasks.named<JavaExec>("runClient") {
     //30815191-a90b-433a-aa64-e3e819bcc4be
 
     //args("--username", "UCP_Tester-2")
+}
+
+tasks.javadoc {
+    // Only include classes from your API package
+    include("org/ppvon/ultimateCobblemonProgression/api/**")
+
+    // Optional but recommended
+    options.encoding = "UTF-8"
+    options.memberLevel = JavadocMemberLevel.PUBLIC
 }

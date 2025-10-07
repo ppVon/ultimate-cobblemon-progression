@@ -1,4 +1,4 @@
-package org.ppvon.ultimateCobblemonProgression.levelcap;
+package org.ppvon.ultimateCobblemonProgression.common.levelcap;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -11,8 +11,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents;
-import org.ppvon.ultimateCobblemonProgression.tiers.TierRegistry;
+import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 
 import java.util.Set;
 

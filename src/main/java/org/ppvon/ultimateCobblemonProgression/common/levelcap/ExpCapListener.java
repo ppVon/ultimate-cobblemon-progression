@@ -1,4 +1,4 @@
-package org.ppvon.ultimateCobblemonProgression.levelcap;
+package org.ppvon.ultimateCobblemonProgression.common.levelcap;
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.api.Priority;
@@ -6,8 +6,8 @@ import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents;
-import org.ppvon.ultimateCobblemonProgression.tiers.TierRegistry;
+import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

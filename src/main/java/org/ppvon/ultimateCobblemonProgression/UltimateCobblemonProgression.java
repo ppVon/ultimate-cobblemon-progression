@@ -7,15 +7,15 @@ import net.minecraft.commands.Commands;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponentImpl;
-import org.ppvon.ultimateCobblemonProgression.component.TrainerLevelComponents;
+import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponentImpl;
+import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 
 import org.ppvon.ultimateCobblemonProgression.config.CommonConfig;
-import org.ppvon.ultimateCobblemonProgression.influence.TrainerLevelInfluenceRegistrar;
-import org.ppvon.ultimateCobblemonProgression.levelcap.CandyEntityBlock;
-import org.ppvon.ultimateCobblemonProgression.levelcap.CandyRefund;
-import org.ppvon.ultimateCobblemonProgression.levelcap.ExpCapListener;
-import org.ppvon.ultimateCobblemonProgression.tiers.TierDataLoader;
+import org.ppvon.ultimateCobblemonProgression.common.influence.TrainerLevelInfluenceRegistrar;
+import org.ppvon.ultimateCobblemonProgression.common.levelcap.CandyEntityBlock;
+import org.ppvon.ultimateCobblemonProgression.common.levelcap.CandyRefund;
+import org.ppvon.ultimateCobblemonProgression.common.levelcap.ExpCapListener;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierDataLoader;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;

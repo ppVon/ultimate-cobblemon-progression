@@ -1,4 +1,4 @@
-package org.ppvon.ultimateCobblemonProgression.component;
+package org.ppvon.ultimateCobblemonProgression.common.component;
 
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
