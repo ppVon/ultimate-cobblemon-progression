@@ -12,17 +12,7 @@ public final class TierRegistry {
     private static final Logger LOG = LogManager.getLogger("UCP/Tiers");
     private static final Pattern TIER_NAME = Pattern.compile("^tier_(\\d+)$");
 
-    public static final class TierDef {
-        public final int index;
-        public final int levelCap;
-        public final Set<ResourceLocation> species;
 
-        public TierDef(int index, int levelCap, Set<ResourceLocation> species) {
-            this.index = index;
-            this.levelCap = levelCap;
-            this.species = Collections.unmodifiableSet(species);
-        }
-    }
 
     private static final Map<Integer, TierDef> BY_TIER = new HashMap<>();
     private static final Map<ResourceLocation, Integer> SPECIES_MIN_TIER = new HashMap<>();
