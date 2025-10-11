@@ -62,6 +62,18 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:1.13.1+kotlin.2.1.10")
     modImplementation("curse.maven:cobblemon-687131:6125079")
 
+    // RCTAPI (Radical Cobblemon Trainers API)
+    modImplementation("curse.maven:radical-cobblemon-trainers-api-1152792:7035309}")
+    // (or pin to 0.13.8-beta if you prefer)
+    // modImplementation("maven.modrinth:rctapi:0.13.8-beta")
+
+    // Admiral command framework
+    modImplementation("maven.modrinth:admiral:0.4.7+1.21.1+fabric")
+
+    // Cobblemon 1.6.1 via CurseMaven (you already have the repository added)
+    // Project ID: 687131, File ID: 6125079
+    modImplementation("curse.maven:cobblemon-687131:6125079")
+
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.2")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.2")
 
@@ -71,6 +83,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    modImplementation(files("libs/Rad.Gyms.Cobblemon.-0.2-beta.4.jar"))
 }
 
 tasks.getByName<Test>("test") {
