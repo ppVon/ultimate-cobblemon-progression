@@ -60,7 +60,7 @@ dependencies {
     modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130")
 
     modImplementation("net.fabricmc:fabric-language-kotlin:1.13.1+kotlin.2.1.10")
-    modImplementation("maven.modrinth:architectury-api:13.0.8+fabric")
+    modImplementation("curse.maven:cobblemon-687131:6125079")
 
     // RCTAPI (Radical Cobblemon Trainers API)
     modImplementation("curse.maven:radical-cobblemon-trainers-api-1152792:7035309}")

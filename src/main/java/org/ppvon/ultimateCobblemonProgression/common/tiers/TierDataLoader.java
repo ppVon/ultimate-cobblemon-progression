@@ -53,7 +53,7 @@ public final class TierDataLoader extends SimpleJsonResourceReloadListener imple
                 }
             }
 
-            TierRegistry.put(new TierRegistry.TierDef(idx, levelCap, species));
+            TierRegistry.put(new TierDef(idx, levelCap, species));
             loaded++;
         }
 
