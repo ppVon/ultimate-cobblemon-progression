@@ -24,6 +24,9 @@
     ],
     "modmenu": [
       "org.ppvon.ultimateCobblemonProgression.client.ModMenuIntegration"
+    ],
+    "client": [
+      "org.ppvon.ultimateCobblemonProgression.client.UltimateCobblemonProgressionClient"
     ]
   },
   "depends": {

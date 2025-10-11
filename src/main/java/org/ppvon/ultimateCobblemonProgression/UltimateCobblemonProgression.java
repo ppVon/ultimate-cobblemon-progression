@@ -10,6 +10,9 @@ import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponentImpl;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 
+import org.ppvon.ultimateCobblemonProgression.common.gym.RadGymsGymGenerateTeamListener;
+import org.ppvon.ultimateCobblemonProgression.common.gym.RadGymsGymRewardsListener;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 import org.ppvon.ultimateCobblemonProgression.config.CommonConfig;
 import org.ppvon.ultimateCobblemonProgression.common.influence.TrainerLevelInfluenceRegistrar;
 import org.ppvon.ultimateCobblemonProgression.common.levelcap.CandyEntityBlock;
@@ -60,7 +63,8 @@ public class UltimateCobblemonProgression implements ModInitializer {
                                         ServerPlayer p = ctx.getSource().getPlayerOrException();
                                         int v = IntegerArgumentType.getInteger(ctx, "value");
                                         TrainerLevelComponents.KEY.get(p).setLevel(v);
-                                        ctx.getSource().sendSuccess(() -> Component.literal("Set Trainer Level to " + v), true);
+                                        int newLevel = TrainerLevelComponents.KEY.get(p).getLevel();
+                                        ctx.getSource().sendSuccess(() -> Component.literal("Set Trainer Level to " + newLevel), true);
                                         return 1;
                                     })
                             )
@@ -75,6 +79,10 @@ public class UltimateCobblemonProgression implements ModInitializer {
         CandyEntityBlock.register();
         CandyRefund.register();
         ExpCapListener.register();
+
+
+        RadGymsGymRewardsListener.register();
+        RadGymsGymGenerateTeamListener.register();
         LOG.info("Done Loading");
     }
 }

@@ -1,5 +1,7 @@
 rootProject.name = "ultimate-cobblemon-progression" //By default, this is how your built jar is called
 
+include(":external:rad-gyms-nightly")
+
 pluginManagement {
     repositories {
         maven("https://maven.fabricmc.net/")
