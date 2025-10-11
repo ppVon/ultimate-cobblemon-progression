@@ -4,6 +4,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 
 public class TrainerLevelComponentImpl implements TrainerLevelComponent, AutoSyncedComponent {
     private int level = 1;
@@ -21,7 +22,9 @@ public class TrainerLevelComponentImpl implements TrainerLevelComponent, AutoSyn
 
     @Override
     public void setLevel(int level) {
-        this.level = level;
+        int max = TierRegistry.maxTier();
+        int actual = Math.clamp(level, 1, max);
+        this.level = actual;
         TrainerLevelComponents.KEY.sync(this.player);
     }
 

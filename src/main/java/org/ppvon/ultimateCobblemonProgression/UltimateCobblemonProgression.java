@@ -60,7 +60,8 @@ public class UltimateCobblemonProgression implements ModInitializer {
                                         ServerPlayer p = ctx.getSource().getPlayerOrException();
                                         int v = IntegerArgumentType.getInteger(ctx, "value");
                                         TrainerLevelComponents.KEY.get(p).setLevel(v);
-                                        ctx.getSource().sendSuccess(() -> Component.literal("Set Trainer Level to " + v), true);
+                                        int newLevel = TrainerLevelComponents.KEY.get(p).getLevel();
+                                        ctx.getSource().sendSuccess(() -> Component.literal("Set Trainer Level to " + newLevel), true);
                                         return 1;
                                     })
                             )

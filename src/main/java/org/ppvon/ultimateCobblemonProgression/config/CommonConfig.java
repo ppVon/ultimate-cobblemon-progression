@@ -38,7 +38,7 @@ public final class CommonConfig {
         WEIGHT_DECAY_PER_TIER = b.comment("% to reduce weight per tier a mon is below player").define("weightDecayPerTier", 0.20, 0.00, 1.0);
         WEIGHT_MIN_FACTOR = b.comment("Minimum % any mon weight will be scaled to").define("weightMinFactor", 0.15, 0, 1);
 
-        WEIGHT_CURRENT_TIER_BUFF = b.comment("% to buff weight of mon in current player tier").define("weightCurrentTierBuff", 1.1, 0.0, 2.0);
+        WEIGHT_CURRENT_TIER_BUFF = b.comment("% to buff weight of mon in current player tier").define("weightCurrentTierBuff", 2.0, 0.0, 5.0);
 
         b.pop();
 
