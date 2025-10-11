@@ -116,9 +116,6 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
     private static double weightFactor(int speciesTier, int playerTier) {
         int diff = Math.abs(speciesTier - playerTier);
         double f = WEIGHT_CURRENT_TIER_BUFF.get() - (WEIGHT_DECAY_PER_TIER.get() * diff);
-        if(diff == 0) {
-            f = WEIGHT_CURRENT_TIER_BUFF.get();
-        }
         return (f < WEIGHT_MIN_FACTOR.get()) ? WEIGHT_MIN_FACTOR.get() : f;
     }
 
