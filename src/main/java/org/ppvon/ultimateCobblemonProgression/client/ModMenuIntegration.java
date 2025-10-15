@@ -2,33 +2,11 @@ package org.ppvon.ultimateCobblemonProgression.client;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.mehvahdjukaar.moonlight.api.platform.configs.ModConfigHolder;
-import net.mehvahdjukaar.moonlight.api.platform.configs.fabric.FabricConfigListScreen;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import org.ppvon.ultimateCobblemonProgression.UltimateCobblemonProgression;
-import org.ppvon.ultimateCobblemonProgression.config.CommonConfig;
+import org.ppvon.ultimateCobblemonProgression.client.gui.ConfigHubScreen;
 
 public final class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return (Screen parent) -> {
-            CommonConfig.init();
-            ModConfigHolder[] holder = {
-                    CommonConfig.HOLDER
-            };
-
-            ItemStack icon = new ItemStack(Items.BOOK);
-            return new FabricConfigListScreen(
-                    UltimateCobblemonProgression.MOD_ID,
-                    icon,
-                    Component.literal("UCP - Config"),
-                    null,
-                    parent,
-                    holder
-            );
-        };
+        return ConfigHubScreen::new;
     }
 }

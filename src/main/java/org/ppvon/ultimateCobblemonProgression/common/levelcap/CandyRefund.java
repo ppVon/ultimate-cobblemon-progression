@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 
 import java.util.*;
 
@@ -33,6 +34,10 @@ public final class CandyRefund {
     public static void register() {
         UseItemCallback.EVENT.register((player, level, hand) -> {
             ItemStack stack = player.getItemInHand(hand);
+
+            if(!ConfigLoader.DO_LEVEL_CAP.get()) {
+                return InteractionResultHolder.pass(stack);
+            }
 
             if (!(player instanceof ServerPlayer sp) || hand != InteractionHand.MAIN_HAND) {
                 return InteractionResultHolder.pass(stack);

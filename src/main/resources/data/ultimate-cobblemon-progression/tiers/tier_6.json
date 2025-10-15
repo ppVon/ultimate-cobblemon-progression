@@ -1,5 +1,11 @@
 {
-  "level_cap": 85,
+  "levelCap": 85,
+  "requirements": {
+    "dex": {
+      "seen": 290,
+      "caught": 80
+    }
+  },
   "species": [
     "cobblemon:aerodactyl",
     "cobblemon:aggron",

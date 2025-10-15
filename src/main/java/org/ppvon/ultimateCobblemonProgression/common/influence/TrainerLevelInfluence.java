@@ -19,9 +19,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
-import org.ppvon.ultimateCobblemonProgression.config.CommonConfig;
+import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 
+import java.io.ObjectInputFilter;
 import java.util.function.Supplier;
 
 /**
@@ -68,16 +69,16 @@ import java.util.function.Supplier;
  *    pokemon, but will not be level 5-16 forever.
  */
 public final class TrainerLevelInfluence implements SpawningInfluence {
-    private static final Supplier<Boolean> BLOCK_UNKNOWN_SPECIES = CommonConfig.BLOCK_UNKNOWN_SPECIES;
-    private static final Supplier<Double> TIER_CAP_SCALING = CommonConfig.TIER_CAP_SCALING;
+    private static final Supplier<Boolean> BLOCK_UNKNOWN_SPECIES = ConfigLoader.BLOCK_UNKNOWN_SPECIES;
+    private static final Supplier<Double> TIER_CAP_SCALING = ConfigLoader.TIER_CAP_SCALING;
 
-    private static final Supplier<Double> MIN_LEVEL_SCALING = CommonConfig.MIN_LEVEL_SCALING;
-    private static final Supplier<Double> AVG_LEVEL_SCALING = CommonConfig.AVG_LEVEL_SCALING;
-    private static final Supplier<Double> MAX_LEVEL_SCALING = CommonConfig.MAX_LEVEL_SCALING;
+    private static final Supplier<Double> MIN_LEVEL_SCALING = ConfigLoader.MIN_LEVEL_SCALING;
+    private static final Supplier<Double> AVG_LEVEL_SCALING = ConfigLoader.AVG_LEVEL_SCALING;
+    private static final Supplier<Double> MAX_LEVEL_SCALING = ConfigLoader.MAX_LEVEL_SCALING;
 
-    private static final Supplier<Double> WEIGHT_DECAY_PER_TIER = CommonConfig.WEIGHT_DECAY_PER_TIER;
-    private static final Supplier<Double> WEIGHT_MIN_FACTOR = CommonConfig.WEIGHT_MIN_FACTOR;
-    private static final Supplier<Double> WEIGHT_CURRENT_TIER_BUFF = CommonConfig.WEIGHT_CURRENT_TIER_BUFF;
+    private static final Supplier<Double> WEIGHT_DECAY_PER_TIER = ConfigLoader.WEIGHT_DECAY_PER_TIER;
+    private static final Supplier<Double> WEIGHT_MIN_FACTOR = ConfigLoader.WEIGHT_MIN_FACTOR;
+    private static final Supplier<Double> WEIGHT_CURRENT_TIER_BUFF = ConfigLoader.WEIGHT_CURRENT_TIER_BUFF;
 
     private static int sampleTriangularInt(int min, int mode, int max, RandomSource rand) {
         if (min >= max) return min;
@@ -163,6 +164,9 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
 
     @Override
     public boolean affectSpawnable(@NotNull SpawnDetail spawnDetail, @NotNull SpawningContext spawningContext) {
+        if(!ConfigLoader.DO_SPECIES_BLOCKING.get()) {
+            return true;
+        }
         return allowDetail(spawnDetail, spawningContext);
     }
 
@@ -170,7 +174,12 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
     public float affectWeight(@NotNull SpawnDetail spawnDetail,
                               @NotNull SpawningContext ctx,
                               float currentWeight) {
-        if (!(spawnDetail instanceof PokemonSpawnDetail psd)) return currentWeight;
+        if (!ConfigLoader.DO_WEIGHT_SCALING.get()) {
+            return currentWeight;
+        }
+        if (!(spawnDetail instanceof PokemonSpawnDetail psd)) {
+            return currentWeight;
+        }
 
         String speciesStr = psd.getPokemon().getSpecies();
         if (speciesStr == null || "random".equalsIgnoreCase(speciesStr)) return currentWeight;
@@ -198,8 +207,15 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
 
     @Override
     public void affectSpawn(@NotNull Entity entity) {
-        if (!(entity instanceof PokemonEntity pe)) return;
-        if (!(pe.level() instanceof ServerLevel server)) return;
+        if(!ConfigLoader.DO_LEVEL_SCALING.get()) {
+            return;
+        }
+        if (!(entity instanceof PokemonEntity pe)){
+            return;
+        }
+        if (!(pe.level() instanceof ServerLevel server)) {
+            return;
+        }
 
         ServerPlayer player = (ServerPlayer) server.getNearestPlayer(pe, 128.0);
         if (player == null) return;

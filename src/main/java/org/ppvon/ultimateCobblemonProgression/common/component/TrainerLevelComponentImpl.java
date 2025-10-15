@@ -28,7 +28,6 @@ public class TrainerLevelComponentImpl implements TrainerLevelComponent, AutoSyn
         TrainerLevelComponents.KEY.sync(this.player);
     }
 
-    // ---- Persistence (write/read NBT) ----
     @Override
     public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         if (tag.contains("Level")) {

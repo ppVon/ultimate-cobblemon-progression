@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
+import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 
 import java.util.Set;
 
@@ -26,13 +27,28 @@ public final class CandyEntityBlock {
 
     public static void register() {
         UseEntityCallback.EVENT.register((player, level, hand, entity, hit) -> {
-            if (!(player instanceof ServerPlayer sp) || hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
+            if(!ConfigLoader.DO_LEVEL_CAP.get()) {
+                return InteractionResult.PASS;
+            }
+
+            if (!(player instanceof ServerPlayer sp) || hand != InteractionHand.MAIN_HAND) {
+                return InteractionResult.PASS;
+            }
+
             ItemStack held = sp.getMainHandItem();
-            if (!isCandy(held.getItem())) return InteractionResult.PASS;
-            if (!(entity instanceof PokemonEntity pe)) return InteractionResult.PASS;
+
+            if (!isCandy(held.getItem())) {
+                return InteractionResult.PASS;
+            }
+
+            if (!(entity instanceof PokemonEntity pe)) {
+                return InteractionResult.PASS;
+            }
 
             Pokemon mon = pe.getPokemon();
-            if (mon == null) return InteractionResult.PASS;
+            if (mon == null) {
+                return InteractionResult.PASS;
+            }
 
             int trainerTier = TrainerLevelComponents.KEY.get(sp).getLevel();
             int cap = TierRegistry.getCapForTier(trainerTier);

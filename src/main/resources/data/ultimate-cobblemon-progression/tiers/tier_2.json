@@ -1,5 +1,11 @@
 {
-  "level_cap": 27,
+  "levelCap": 27,
+  "requirements": {
+    "dex": {
+      "seen": 1,
+      "caught": 2
+    }
+  },
   "species": [
     "cobblemon:abra",
     "cobblemon:aron",

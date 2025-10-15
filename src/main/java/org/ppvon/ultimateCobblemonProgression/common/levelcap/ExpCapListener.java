@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
+import kotlin.Unit;
+import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,10 +23,13 @@ public final class ExpCapListener {
         CobblemonEvents.EXPERIENCE_GAINED_EVENT_PRE.subscribe(Priority.HIGHEST, ExpCapListener::onPreExp);
     }
 
-    private static kotlin.Unit onPreExp(ExperienceGainedPreEvent e) {
+    private static Unit onPreExp(ExperienceGainedPreEvent e) {
+        if(!ConfigLoader.DO_LEVEL_CAP.get()) {
+            return Unit.INSTANCE;
+        }
         Pokemon mon = e.getPokemon();
         ServerPlayer owner = mon.getOwnerPlayer();
-        if (owner == null) return kotlin.Unit.INSTANCE;
+        if (owner == null) return Unit.INSTANCE;
 
         int trainerLevel = TrainerLevelComponents.KEY.get(owner).getLevel();
         int cap = TierRegistry.getCapForTier(trainerLevel);
@@ -34,7 +39,7 @@ public final class ExpCapListener {
         if (lvl >= cap) {
             e.setExperience(0);
             notify(owner, mon, cap, "XP blocked: at Trainer cap (");
-            return kotlin.Unit.INSTANCE;
+            return Unit.INSTANCE;
         }
 
         int expToCap = mon.getExperienceToLevel(cap);
@@ -42,7 +47,7 @@ public final class ExpCapListener {
             e.setExperience(expToCap);
             notify(owner, mon, cap, "XP capped: can’t exceed Trainer cap (");
         }
-        return kotlin.Unit.INSTANCE;
+        return Unit.INSTANCE;
     }
 
     private static void notify(ServerPlayer sp, Pokemon mon, int cap, String msg) {

@@ -1,3 +1,5 @@
+import org.gradle.jvm.tasks.Jar;
+
 plugins {
     id("java")
     id("dev.architectury.loom") version("1.9-SNAPSHOT")
@@ -6,8 +8,8 @@ plugins {
 }
 
 group = "org.ppvon"
-version = "1.1.0"
 val minecraftVersion = "1.21.1"
+version = "1.1.0"
 
 base {
     archivesName.set("ucp-fabric+mc${minecraftVersion}");
@@ -37,8 +39,6 @@ repositories {
     maven("https://maven.impactdev.net/repository/development/")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://maven.ladysnake.org/releases")
-    maven("https://api.modrinth.com/maven") // Moonlight
-    maven("https://maven.shedaniel.me")
     maven ("https://maven.terraformersmc.com/")
     maven("https://www.cursemaven.com")
 }
@@ -56,16 +56,12 @@ dependencies {
     modImplementation(fabricApi.module("fabric-entity-events-v1", "0.104.0+1.21.1"))
     modImplementation(fabricApi.module("fabric-events-interaction-v0", "0.104.0+1.21.1"))
 
-    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130")
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.130")
-
     modImplementation("net.fabricmc:fabric-language-kotlin:1.13.1+kotlin.2.1.10")
     modImplementation("curse.maven:cobblemon-687131:6125079")
 
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.2")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.2")
 
-    modImplementation("maven.modrinth:moonlight:1.21-2.23.11-fabric")
     modCompileOnly("com.terraformersmc:modmenu:11.0.3")
     modRuntimeOnly("com.terraformersmc:modmenu:11.0.3")
 
@@ -93,10 +89,19 @@ tasks.named<JavaExec>("runClient") {
 }
 
 tasks.javadoc {
-    // Only include classes from your API package
     include("org/ppvon/ultimateCobblemonProgression/api/**")
 
-    // Optional but recommended
     options.encoding = "UTF-8"
     options.memberLevel = JavadocMemberLevel.PUBLIC
+}
+
+tasks.named<Jar>("remapJar") {
+    archiveFileName.set("ucp-fabric-${version}+mc${minecraftVersion}.jar")
+}
+
+tasks.withType<Jar>().configureEach {
+    when (name) {
+        "remapSourcesJar" -> archiveFileName.set("ucp-fabric-${version}+mc${minecraftVersion}-sources.jar")
+        "javadocJar" -> archiveFileName.set("ucp-fabric-${version}+mc${minecraftVersion}-javadoc.jar")
+    }
 }

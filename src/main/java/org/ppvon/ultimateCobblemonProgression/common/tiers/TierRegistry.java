@@ -3,6 +3,7 @@ package org.ppvon.ultimateCobblemonProgression.common.tiers;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.requirements.TierRequirements;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -11,8 +12,6 @@ import java.util.regex.Pattern;
 public final class TierRegistry {
     private static final Logger LOG = LogManager.getLogger("UCP/Tiers");
     private static final Pattern TIER_NAME = Pattern.compile("^tier_(\\d+)$");
-
-
 
     private static final Map<Integer, TierDef> BY_TIER = new HashMap<>();
     private static final Map<ResourceLocation, Integer> SPECIES_MIN_TIER = new HashMap<>();
@@ -26,16 +25,45 @@ public final class TierRegistry {
         maxTier = 0;
     }
 
-    public static void put(TierDef def) {
-        BY_TIER.put(def.index, def);
+    public static boolean put(TierDef def) {
+        TierDef prev = BY_TIER.put(def.index, def);
         maxTier = Math.max(maxTier, def.index);
-        for (var s : def.species) {
-            SPECIES_MIN_TIER.merge(s, def.index, Math::min);
+
+        if (prev != null) {
+            rebuildSpeciesMinTier();
+            return true;
+        } else {
+            for (var s : def.species) {
+                SPECIES_MIN_TIER.merge(s, def.index, Math::min);
+            }
+            return false;
         }
     }
 
-    public static int maxTier() { return maxTier; }
-    public static Optional<TierDef> get(int idx) { return Optional.ofNullable(BY_TIER.get(idx)); }
+    private static void rebuildSpeciesMinTier() {
+        SPECIES_MIN_TIER.clear();
+        for (var tier : BY_TIER.values()) {
+            for (var s : tier.species) {
+                SPECIES_MIN_TIER.merge(s, tier.index, Math::min);
+            }
+        }
+    }
+
+    public static TierRequirements getRequirements(int tier) {
+        if(tier == maxTier()) {
+            return null;
+        }
+        return BY_TIER.get(tier).requirements;
+    }
+
+    public static int maxTier() {
+        return maxTier;
+    }
+
+    public static Optional<TierDef> get(int idx) {
+        return Optional.ofNullable(BY_TIER.get(idx));
+    }
+
     public static int getMinTierFor(ResourceLocation speciesId) {
         return SPECIES_MIN_TIER.getOrDefault(speciesId, Integer.MAX_VALUE);
     }

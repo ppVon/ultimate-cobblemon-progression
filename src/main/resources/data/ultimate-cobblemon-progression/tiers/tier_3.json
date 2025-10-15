@@ -1,5 +1,11 @@
 {
-  "level_cap": 40,
+  "levelCap": 40,
+  "requirements": {
+    "dex": {
+        "seen": 80,
+        "caught": 20
+      }
+  },
   "species": [
     "cobblemon:aipom",
     "cobblemon:amaura",
