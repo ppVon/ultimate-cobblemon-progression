@@ -1,5 +1,11 @@
 {
-  "level_cap": 54,
+  "levelCap": 54,
+  "requirements": {
+    "dex": {
+      "seen": 140,
+      "caught": 35
+    }
+  },
   "species": [
     "cobblemon:absol",
     "cobblemon:alomomola",

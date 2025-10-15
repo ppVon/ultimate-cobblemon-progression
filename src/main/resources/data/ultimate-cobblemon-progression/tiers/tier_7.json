@@ -1,5 +1,11 @@
 {
-  "level_cap": 100,
+  "levelCap": 100,
+  "requirements": {
+    "dex": {
+      "seen": 380,
+      "caught": 110
+    }
+  },
   "species": [
     "cobblemon:arceus",
     "cobblemon:arceus_bug",

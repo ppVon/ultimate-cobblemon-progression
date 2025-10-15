@@ -10,7 +10,8 @@ import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponentImpl;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 
-import org.ppvon.ultimateCobblemonProgression.config.CommonConfig;
+import org.ppvon.ultimateCobblemonProgression.common.progression.ProgressionManager;
+import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 import org.ppvon.ultimateCobblemonProgression.common.influence.TrainerLevelInfluenceRegistrar;
 import org.ppvon.ultimateCobblemonProgression.common.levelcap.CandyEntityBlock;
 import org.ppvon.ultimateCobblemonProgression.common.levelcap.CandyRefund;
@@ -28,7 +29,7 @@ public class UltimateCobblemonProgression implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        CommonConfig.init();
+        ConfigLoader.init();
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             var player = handler.player;
@@ -76,6 +77,7 @@ public class UltimateCobblemonProgression implements ModInitializer {
         CandyEntityBlock.register();
         CandyRefund.register();
         ExpCapListener.register();
+        ProgressionManager.register();
         LOG.info("Done Loading");
     }
 }
