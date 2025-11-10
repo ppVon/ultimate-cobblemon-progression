@@ -41,6 +41,7 @@ repositories {
     maven("https://maven.ladysnake.org/releases")
     maven ("https://maven.terraformersmc.com/")
     maven("https://www.cursemaven.com")
+    maven { url = uri("https://raw.githubusercontent.com/SolidBlock-cn/mvn-repo/main") }
 }
 
 dependencies {
@@ -67,6 +68,10 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+
+    modImplementation("pers.solid:brrp-fabric:1.0.4-1.21.1")
+
+    implementation("com.google.code.gson:gson:2.11.0")
 }
 
 tasks.getByName<Test>("test") {
