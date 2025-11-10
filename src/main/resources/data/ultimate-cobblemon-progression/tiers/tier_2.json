@@ -2,8 +2,8 @@
   "levelCap": 27,
   "requirements": {
     "dex": {
-      "seen": 1,
-      "caught": 2
+      "seen": 30,
+      "caught": 10
     }
   },
   "species": [

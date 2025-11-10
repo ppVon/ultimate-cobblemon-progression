@@ -98,11 +98,18 @@ data/ultimate-cobblemon-progression/tiers/
 **Example `tier_3.json`:**
 ```json
 {
-  "level_cap": 10,
+  "levelCap": 10,
+  "requirements": {
+    "dex": {
+      "seen": 80,
+      "caught": 20
+    }
+  },
   "species": [
     "cobblemon:pidgeotto",
     "cobblemon:mankey",
-    "cobblemon:nidorino"
+    "cobblemon:nidorino",
+    ...
   ]
 }
 ```
@@ -148,53 +155,10 @@ And some fun stats about Pokemon BST:
 | 75th | 514 |
 | 90th | 580 |
 
-
----
-
-## Configuration
-
-UCP uses the **Moonlight** config system (common, synced). The generated file name typically looks like:
-
-```
-config/ultimatecobblemonprogression-common.toml
-```
-
-### Current Options
-
-### Spawn Influence Options
-These values are used by the influence logic today (defined in code). They may be promoted to user‑configurable settings over time:
-
-| Key | Purpose |
-|---|---|
-| `BLOCK_UNKNOWN_SPECIES` | If `true`, species not found in any tier are blocked; if `false`, they’re allowed. |
-| `WEIGHT_CURRENT_TIER_BUFF` | Multiplier applied to spawn weight for species in the player’s current tier. |
-| `WEIGHT_DECAY_PER_TIER` | How much to reduce weight per tier below the player. |
-| `WEIGHT_MIN_FACTOR` | Floor for weight after decays. |
-| `MIN_LEVEL_SCALING` / `AVG_LEVEL_SCALING` / `MAX_LEVEL_SCALING` | Shape the triangle distribution around a tier’s cap. |
-| `TIER_CAP_SCALING` | How much lower‑tier caps get boosted when the player is many tiers higher. |
-
-> See `TrainerLevelComponent` and `TrainerLevelInfluence` for the authoritative source and inline docs.
-
----
-
 ## Commands
 
-For development and testing:
-
 ```
-/trainerlevel set <level>
+/trainerlevel set <level> (requires op level 2)
 /trainerlevel get
 ```
----
-
-## Roadmap
-
-- Natural trainer level progression.
-    - I'm weighing my options on whether to use RAD Trainers or RAD Gyms to affect progression
-    - RAD Trainers specifically has its own level cap system that is tightly coupled with its series system
-          which may prove difficult to integrate with
-    - Current implementation can be used with FTB Quests to increase trainer level using command rewards
-- Cobblemon Raid Den integrations
-- Alpha Project integration
-
 ---

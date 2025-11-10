@@ -11,6 +11,8 @@ import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelCompo
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 
 import org.ppvon.ultimateCobblemonProgression.common.progression.ProgressionManager;
+import org.ppvon.ultimateCobblemonProgression.common.progression.dex.DexProgressionApi;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 import org.ppvon.ultimateCobblemonProgression.common.influence.TrainerLevelInfluenceRegistrar;
 import org.ppvon.ultimateCobblemonProgression.common.levelcap.CandyEntityBlock;
@@ -50,12 +52,46 @@ public class UltimateCobblemonProgression implements ModInitializer {
                     .then(Commands.literal("get")
                             .executes(ctx -> {
                                 ServerPlayer p = ctx.getSource().getPlayerOrException();
+
                                 int v = TrainerLevelComponents.KEY.get(p).getLevel();
-                                ctx.getSource().sendSuccess(() -> Component.literal("Trainer Level: " + v), false);
+                                var nextLevel = TierRegistry.get(v + 1);
+
+                                if(nextLevel.isEmpty()) {
+                                    ctx.getSource().sendSuccess(
+                                            () -> Component.literal("Trainer Level: " + v + " (MAX)"),
+                                            false
+                                    );
+                                    return 1;
+                                }
+
+                                var requirements = nextLevel.get().requirements.dex;
+                                int seenRequirement = requirements.seen;
+                                int caughtRequirement = requirements.caught;
+
+                                DexProgressionApi.DexCounts counts = DexProgressionApi.get(p);
+                                int seenCount = counts.seen();
+                                int caughtCount = counts.caught();
+
+                                String message = """
+                                        Trainer Level: %d
+                                        
+                                        Next Level: %d (Level cap %d)
+                                        Pokédex Progress:
+                                        • Seen:   %d / %d
+                                        • Caught: %d / %d""".formatted(
+                                        v,
+                                        v + 1,
+                                        nextLevel.get().levelCap,
+                                        seenCount, seenRequirement,
+                                        caughtCount, caughtRequirement
+                                );
+
+                                ctx.getSource().sendSuccess(() -> Component.literal(message), false);
                                 return 1;
                             })
                     )
                     .then(Commands.literal("set")
+                            .requires(src -> src.hasPermission(2))
                             .then(Commands.argument("value", IntegerArgumentType.integer(0, 999))
                                     .executes(ctx -> {
                                         ServerPlayer p = ctx.getSource().getPlayerOrException();

@@ -1,3 +1,13 @@
+# UCP 1.1.1
+
+## Features
+- /trainerlevel get now shows the requirements to level up
+
+## Fixes
+- Removed debug log on dex data changed
+- Removed runtime dependency of modmenu to make UCP server-side safe
+- /trainerlevel set now requires op level 2
+
 # UCP 1.1.0
 
 ## Features

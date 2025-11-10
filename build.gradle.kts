@@ -9,7 +9,7 @@ plugins {
 
 group = "org.ppvon"
 val minecraftVersion = "1.21.1"
-version = "1.1.0"
+version = "1.1.1"
 
 base {
     archivesName.set("ucp-fabric+mc${minecraftVersion}");
@@ -63,7 +63,7 @@ dependencies {
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.2")
 
     modCompileOnly("com.terraformersmc:modmenu:11.0.3")
-    modRuntimeOnly("com.terraformersmc:modmenu:11.0.3")
+    //modRuntimeOnly("com.terraformersmc:modmenu:11.0.3")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")

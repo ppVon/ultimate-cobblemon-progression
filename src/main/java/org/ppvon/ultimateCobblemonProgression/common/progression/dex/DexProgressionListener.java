@@ -38,12 +38,6 @@ public final class DexProgressionListener {
 
         ProgressionManager.attemptLevelUp(player, seenCount, caughtCount);
 
-        player.displayClientMessage(
-                net.minecraft.network.chat.Component.literal(
-                        "[DEBUG] Pokédex changed! Seen=" + seenCount + ", Caught=" + caughtCount
-                ),
-                false
-        );
         return Unit.INSTANCE;
     }
 }
