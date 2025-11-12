@@ -9,7 +9,7 @@ plugins {
 
 group = "org.ppvon"
 val minecraftVersion = "1.21.1"
-version = "1.1.1"
+version = "1.2.0"
 
 base {
     archivesName.set("ucp-fabric+mc${minecraftVersion}");
@@ -31,6 +31,27 @@ loom {
     mixin {
         defaultRefmapName.set("mixins.${project.name}.refmap.json")
     }
+
+    runs {
+        create("client2") {
+            client()
+            name("Client 2")
+            // separate game directory so files/locks don't clash
+            runDir("run2")
+            // give it a unique username (dev/offline auth)
+            programArgs("--username", "Tester2", "--uuid", "00000000-0000-0000-0000-000000000002")
+            vmArgs("-Xmx2G")
+        }
+        create("client3") {
+            client()
+            name("Client 3")
+            // separate game directory so files/locks don't clash
+            runDir("run2")
+            // give it a unique username (dev/offline auth)
+            programArgs("--username", "Tester3", "--uuid", "00000000-0000-0000-0000-000000000002")
+            vmArgs("-Xmx2G")
+        }
+    }
 }
 
 repositories {
@@ -41,7 +62,6 @@ repositories {
     maven("https://maven.ladysnake.org/releases")
     maven ("https://maven.terraformersmc.com/")
     maven("https://www.cursemaven.com")
-    maven { url = uri("https://raw.githubusercontent.com/SolidBlock-cn/mvn-repo/main") }
 }
 
 dependencies {
@@ -68,8 +88,6 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-
-    modImplementation("pers.solid:brrp-fabric:1.0.4-1.21.1")
 
     implementation("com.google.code.gson:gson:2.11.0")
 }

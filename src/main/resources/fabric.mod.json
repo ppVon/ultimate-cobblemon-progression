@@ -26,6 +26,9 @@
       "org.ppvon.ultimateCobblemonProgression.client.ModMenuIntegration"
     ]
   },
+  "mixins": [
+    "ucp.mixins.json"
+  ],
   "depends": {
     "minecraft": "1.21.1",
     "cobblemon": ">=1.6.0",

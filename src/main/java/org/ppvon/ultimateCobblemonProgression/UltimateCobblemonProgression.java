@@ -3,6 +3,7 @@ package org.ppvon.ultimateCobblemonProgression;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.commands.Commands;
 
 import net.minecraft.network.chat.Component;
@@ -13,6 +14,7 @@ import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelCompo
 import org.ppvon.ultimateCobblemonProgression.common.progression.ProgressionManager;
 import org.ppvon.ultimateCobblemonProgression.common.progression.dex.DexProgressionApi;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.TierSpeciesApplier;
 import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 import org.ppvon.ultimateCobblemonProgression.common.influence.TrainerLevelInfluenceRegistrar;
 import org.ppvon.ultimateCobblemonProgression.common.levelcap.CandyEntityBlock;
@@ -109,6 +111,15 @@ public class UltimateCobblemonProgression implements ModInitializer {
         TrainerLevelInfluenceRegistrar.registerOnce();
         LOG.info("Trainer level influence registered");
         TierDataLoader.register();
+
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            TierSpeciesApplier.applyFromRegistry();
+        });
+
+        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, rm, success) -> {
+            if (!success) return;
+            TierSpeciesApplier.applyFromRegistry();
+        });
 
         CandyEntityBlock.register();
         CandyRefund.register();

@@ -1,11 +1,13 @@
 package org.ppvon.ultimateCobblemonProgression.api;
 
+import com.cobblemon.mod.common.pokemon.Species;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
+import org.ppvon.ultimateCobblemonProgression.common.tiers.UltimateCobblemonProgressionTierExt;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -148,5 +150,42 @@ public final class UCPApi {
     @ApiStatus.AvailableSince("1.0.0")
     public static String apiVersion() {
         return "1.0.0";
+    }
+
+    /**
+     * Returns the trainer tier value assigned to the given Cobblemon {@link Species}.
+     * <p>
+     * This value is stored in a runtime-only field injected into {@code Species}
+     * via the {@link org.ppvon.ultimateCobblemonProgression.mixin.SpeciesTierMixin}.
+     * It is not part of Cobblemon's base data or CODECs.
+     * <p>
+     * When no tier has been applied, {@code -1} is returned.
+     *
+     * @param sp the species instance
+     * @return the numeric tier for this species, or {@code -1} if none
+     * @since 1.2.0
+     */
+    public static int getTier(Species sp) {
+        return ((UltimateCobblemonProgressionTierExt) (Object) sp).ucp$getTier();
+    }
+
+    /**
+     * Sets the trainer tier value on the given Cobblemon {@link Species}.
+     * <p>
+     * This method assigns the in-memory tier field added by the
+     * {@link org.ppvon.ultimateCobblemonProgression.mixin.SpeciesTierMixin}.
+     * It should only be called on the server thread after datapack reloads
+     * (e.g. from {@code TierSpeciesApplier.applyFromRegistry()}).
+     * <p>
+     * The cast through {@code Object} is required because the
+     * {@link UltimateCobblemonProgressionTierExt} interface is applied at runtime
+     * by Mixin and is not visible to the Java compiler.
+     *
+     * @param sp   the species instance to modify
+     * @param tier the numeric tier to assign, or {@code -1} to clear
+     * @since 1.2.0
+     */
+    public static void setTier(Species sp, int tier) {
+        ((UltimateCobblemonProgressionTierExt) (Object) sp).ucp$setTier(tier);
     }
 }
