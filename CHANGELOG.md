@@ -1,3 +1,8 @@
+# UCP 1.2.0
+
+## Fixes
+UCP now extends the species class directly instead of maintaining a map of tier:species.
+
 # UCP 1.1.1
 
 ## Features
