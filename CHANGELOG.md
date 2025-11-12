@@ -1,7 +1,7 @@
 # UCP 1.2.0
 
 ## Fixes
-UCP now extends the species class directly instead of maintaining a map of tier:species.
+Performance has been improved by a large factor.  UCP now adds a field to the species class using mixins to store the tier on the species directly, instead of maintaining a hash table of species:tier.
 
 # UCP 1.1.1
 
