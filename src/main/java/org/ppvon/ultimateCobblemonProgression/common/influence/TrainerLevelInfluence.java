@@ -1,5 +1,7 @@
 package org.ppvon.ultimateCobblemonProgression.common.influence;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
+import com.cobblemon.mod.common.pokemon.Species;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import com.cobblemon.mod.common.api.spawning.SpawnBucket;
@@ -18,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
+import org.ppvon.ultimateCobblemonProgression.api.UCPApi;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
 import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
@@ -96,18 +99,8 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
         return Mth.clamp((int)Math.round(x), min, max);
     }
 
-    private static ResourceLocation normId(String raw) {
-        if (raw == null || raw.isBlank()) return null;
-        String s = raw.toLowerCase();
-        return ResourceLocation.tryParse(s.contains(":") ? s : "cobblemon:" + s);
-    }
-
     private static int playerTier(ServerPlayer player) {
         return Math.max(0, TrainerLevelComponents.KEY.get(player).getLevel());
-    }
-
-    private static int speciesMinTier(ResourceLocation speciesId) {
-        return TierRegistry.getMinTierFor(speciesId);
     }
 
     private static int levelCapForTier(int tier) {
@@ -142,14 +135,13 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
         String speciesStr = psd.getPokemon().getSpecies();
         if (speciesStr == null || "random".equalsIgnoreCase(speciesStr)) return true;
 
-        ResourceLocation speciesId = normId(speciesStr);
-        if (speciesId == null) return !BLOCK_UNKNOWN_SPECIES.get();
-
         if (TierRegistry.maxTier() == 0) return true;
 
-        int monTier = speciesMinTier(speciesId);
+        Species sp = PokemonSpecies.INSTANCE.getByName(speciesStr);
+        int monTier = UCPApi.getTier(sp);
+
         if (monTier == Integer.MAX_VALUE) {
-            Log.warn(LogCategory.GENERAL, "No tier for {}", speciesId);
+            Log.warn(LogCategory.GENERAL, "No tier for {}", sp.getName());
             return !BLOCK_UNKNOWN_SPECIES.get();
         }
 
@@ -184,13 +176,12 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
         String speciesStr = psd.getPokemon().getSpecies();
         if (speciesStr == null || "random".equalsIgnoreCase(speciesStr)) return currentWeight;
 
-        ResourceLocation speciesId = normId(speciesStr);
-        if (speciesId == null) return BLOCK_UNKNOWN_SPECIES.get() ? 0.0f : currentWeight;
-
         if (TierRegistry.maxTier() == 0) return currentWeight;
 
-        int monTier = speciesMinTier(speciesId);
-        if (monTier == Integer.MAX_VALUE) {
+        Species sp = PokemonSpecies.INSTANCE.getByName(speciesStr);
+        int monTier = UCPApi.getTier(sp);
+        //int monTier = speciesMinTier(speciesId);
+        if (monTier == -1) {
             return BLOCK_UNKNOWN_SPECIES.get() ? 0.0f : currentWeight;
         }
 
@@ -221,11 +212,9 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
         if (player == null) return;
 
         var poke = pe.getPokemon();
-        String speciesStr = poke.getSpecies().getName();
-        ResourceLocation speciesId = normId(speciesStr);
-        if(speciesId == null) return;
+        Species sp = poke.getSpecies();
 
-        int speciesTier = TierRegistry.getMinTierFor((speciesId));
+        int speciesTier = UCPApi.getTier(sp);
         int playerTier = playerTier(player);
 
         int speciesTierCap = levelCapForTier(speciesTier);

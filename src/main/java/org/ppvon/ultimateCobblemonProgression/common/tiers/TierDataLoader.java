@@ -1,8 +1,6 @@
-// src/main/java/.../tiers/TierDataLoader.java
 package org.ppvon.ultimateCobblemonProgression.common.tiers;
 
 import com.google.gson.*;
-import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;

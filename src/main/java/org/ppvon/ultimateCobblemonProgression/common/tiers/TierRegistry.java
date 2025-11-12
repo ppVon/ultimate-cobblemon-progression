@@ -81,4 +81,16 @@ public final class TierRegistry {
     public static String summary() {
         return "tiers=" + BY_TIER.size() + " max=" + maxTier + " species=" + SPECIES_MIN_TIER.size();
     }
+
+    public static Map<Integer, Set<ResourceLocation>> exportSpeciesByTier() {
+        Map<Integer, Set<ResourceLocation>> out = new HashMap<>();
+        for (TierDef def : BY_TIER.values()) {
+            if (def == null) continue;
+            Set<ResourceLocation> species = (def.species != null) ? Set.copyOf(def.species) : Set.of();
+            out.put(def.index, species);
+        }
+        return out;
+    }
+
+
 }
