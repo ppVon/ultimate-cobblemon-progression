@@ -21,7 +21,7 @@ public final class ProgressionManager {
     }
 
     public static Component buildChatMessage(int newTier, int newLevelCap, int newlyUnlockedSpecies,
-                                             DexRequirements nextTierDexReq) {
+                                             Optional<DexRequirements> nextTierDexReq, Boolean max) {
 
         MutableComponent header = Component.literal("Congrats! Your trainer level is now ")
                 .withStyle(ChatFormatting.GREEN)
@@ -35,8 +35,16 @@ public final class ProgressionManager {
                 .append(Component.literal(String.valueOf(newlyUnlockedSpecies)).withStyle(ChatFormatting.AQUA))
                 .append(Component.literal(" " + pluralize(newlyUnlockedSpecies, "new species", "new species") + " unlocked"));
 
-        boolean hasSeen = nextTierDexReq != null && nextTierDexReq.seen > 0;
-        boolean hasCaught = nextTierDexReq != null && nextTierDexReq.caught > 0;
+        if(max || nextTierDexReq.isEmpty()) {
+            return header
+                    .append(CommonComponents.NEW_LINE).append(levelCapLine)
+                    .append(CommonComponents.NEW_LINE).append(unlockedLine);
+        }
+
+        DexRequirements dexRequirements = nextTierDexReq.get();
+
+        boolean hasSeen = dexRequirements != null && dexRequirements.seen > 0;
+        boolean hasCaught = dexRequirements != null && dexRequirements.caught > 0;
 
         Component reqHeader = Component.literal("  Requirements for next level:")
                 .withStyle(ChatFormatting.YELLOW);
@@ -47,10 +55,10 @@ public final class ProgressionManager {
                     .withStyle(ChatFormatting.GRAY);
         } else {
             MutableComponent seenLine = hasSeen
-                    ? Component.literal("    • Seen ").append(number(nextTierDexReq.seen))
+                    ? Component.literal("    • Seen ").append(number(dexRequirements.seen))
                     : Component.empty();
             MutableComponent caughtLine = hasCaught
-                    ? Component.literal("    • Caught ").append(number(nextTierDexReq.caught))
+                    ? Component.literal("    • Caught ").append(number(dexRequirements.caught))
                     : Component.empty();
 
             if (hasSeen && hasCaught) {
@@ -103,12 +111,16 @@ public final class ProgressionManager {
 
             Optional<TierDef> nextTier = TierRegistry.get(next+1);
             if(nextTier.isEmpty()) {
+                player.displayClientMessage(
+                    buildChatMessage(next, newTier.get().levelCap, newTier.get().species.size(), Optional.empty(), true),
+                    false
+                );
                 return;
             }
 
             player.displayClientMessage(
-                    buildChatMessage(next, newTier.get().levelCap, newTier.get().species.size(), nextTier.get().requirements.dex),
-                    false
+                buildChatMessage(next, newTier.get().levelCap, TierRegistry.getRealSpecies(newLevel), Optional.ofNullable(nextTier.get().requirements.dex), false),
+                false
             );
         }
     }

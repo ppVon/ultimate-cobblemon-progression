@@ -16,15 +16,18 @@ public final class TierSpeciesApplier {
             UCPApi.setTier(sp, -1);
         }
 
-        Map<Integer, Set<ResourceLocation>> tierToSpecies = TierRegistry.exportSpeciesByTier();
+        Map<Integer, TierDef> tierToSpecies = TierRegistry.exportSpeciesByTier();
         for (var e : tierToSpecies.entrySet()) {
             int tier = e.getKey();
-            for (ResourceLocation id : e.getValue()) {
+            int realSpecies = 0;
+            for (ResourceLocation id : e.getValue().species) {
                 Species sp = PokemonSpecies.INSTANCE.getByIdentifier(id);
                 if (sp != null) {
+                    realSpecies += 1;
                     UCPApi.setTier(sp, tier);
                 }
             }
+            TierRegistry.putRealSpecies(tier, realSpecies);
         }
     }
 }

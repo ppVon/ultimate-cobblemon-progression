@@ -1,3 +1,9 @@
+# UCP 1.2.1
+
+## Fixes
+- Tier 7 can now be reached naturally via dex progression as intended.  It was bugged before.  It also displays a message and /trainerlevel get will just show that you are max level.
+- Tier up message now shows an accurate new species number based on species that are actually registered with cobblemon
+
 # UCP 1.2.0
 
 ## Fixes

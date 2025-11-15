@@ -27,7 +27,6 @@ public final class TierDef {
             );
 
     public static final Codec<TierDef> CODEC = RecordCodecBuilder.create(i -> i.group(
-            // read both, prefer camelCase if present
             Codec.INT.fieldOf("levelCap").forGetter(t -> t.levelCap),
 
             SPECIES_SET_CODEC.optionalFieldOf("species", Set.of()).forGetter(t -> t.species),
