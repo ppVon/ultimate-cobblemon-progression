@@ -50,7 +50,7 @@ public final class TierRegistry {
     }
 
     public static TierRequirements getRequirements(int tier) {
-        if(tier == maxTier()) {
+        if(tier > maxTier()) {
             return null;
         }
         return BY_TIER.get(tier).requirements;
