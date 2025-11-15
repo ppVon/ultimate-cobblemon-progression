@@ -15,7 +15,7 @@ import java.util.Map;
 import static org.ppvon.ultimateCobblemonProgression.UltimateCobblemonProgression.MOD_ID;
 
 public final class TierDataLoader extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
-    private static final Gson GSON = new GsonBuilder().setStrictness(Strictness.LENIENT).create();
+    private static final Gson GSON = new GsonBuilder().setLenient().create();
 
     public TierDataLoader() { super(GSON, "tiers"); }
 
