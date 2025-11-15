@@ -1,3 +1,8 @@
+# UCP 1.2.2
+
+## Fixes
+- Fixed a crash caused by a deprecated GSON function
+
 # UCP 1.2.1
 
 ## Fixes
