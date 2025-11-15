@@ -15,6 +15,7 @@ public final class TierRegistry {
 
     private static final Map<Integer, TierDef> BY_TIER = new HashMap<>();
     private static final Map<ResourceLocation, Integer> SPECIES_MIN_TIER = new HashMap<>();
+    private static final Map<Integer, Integer> REAL_SEPCIES_BY_TIER = new HashMap<>();
     private static int maxTier = 0;
 
     private TierRegistry() {}
@@ -23,6 +24,14 @@ public final class TierRegistry {
         BY_TIER.clear();
         SPECIES_MIN_TIER.clear();
         maxTier = 0;
+    }
+
+    public static int getRealSpecies(int tier) {
+        return REAL_SEPCIES_BY_TIER.get(tier);
+    }
+
+    public static void putRealSpecies(int tierIndex, int count) {
+        REAL_SEPCIES_BY_TIER.put(tierIndex, count);
     }
 
     public static boolean put(TierDef def) {
@@ -82,7 +91,8 @@ public final class TierRegistry {
         return "tiers=" + BY_TIER.size() + " max=" + maxTier + " species=" + SPECIES_MIN_TIER.size();
     }
 
-    public static Map<Integer, Set<ResourceLocation>> exportSpeciesByTier() {
+    public static Map<Integer, TierDef> exportSpeciesByTier() {
+        /*
         Map<Integer, Set<ResourceLocation>> out = new HashMap<>();
         for (TierDef def : BY_TIER.values()) {
             if (def == null) continue;
@@ -90,6 +100,9 @@ public final class TierRegistry {
             out.put(def.index, species);
         }
         return out;
+
+         */
+        return BY_TIER;
     }
 
 

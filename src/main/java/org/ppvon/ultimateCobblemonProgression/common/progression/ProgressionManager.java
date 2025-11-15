@@ -119,7 +119,7 @@ public final class ProgressionManager {
             }
 
             player.displayClientMessage(
-                buildChatMessage(next, newTier.get().levelCap, newTier.get().species.size(), Optional.ofNullable(nextTier.get().requirements.dex), false),
+                buildChatMessage(next, newTier.get().levelCap, TierRegistry.getRealSpecies(newLevel), Optional.ofNullable(nextTier.get().requirements.dex), false),
                 false
             );
         }
