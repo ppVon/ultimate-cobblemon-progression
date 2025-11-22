@@ -4,12 +4,12 @@ plugins {
     id("java")
     id("dev.architectury.loom") version("1.9-SNAPSHOT")
     id("architectury-plugin") version("3.4-SNAPSHOT")
-    kotlin("jvm") version "2.1.10"
+    kotlin("jvm") version "2.2.20"
 }
 
 group = "org.ppvon"
 val minecraftVersion = "1.21.1"
-version = "1.2.2"
+version = "1.3.0"
 
 base {
     archivesName.set("ucp-fabric+mc${minecraftVersion}");
@@ -67,18 +67,19 @@ repositories {
 dependencies {
     minecraft("net.minecraft:minecraft:1.21.1")
     mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:0.16.5")
+    modImplementation("net.fabricmc:fabric-loader:0.18.1")
 
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.104.0+1.21.1")
-    modImplementation(fabricApi.module("fabric-command-api-v2", "0.104.0+1.21.1"))
-    modImplementation(fabricApi.module("fabric-resource-loader-v0", "0.104.0+1.21.1"))
-    modImplementation(fabricApi.module("fabric-lifecycle-events-v1", "0.104.0+1.21.1"))
-    modImplementation(fabricApi.module("fabric-networking-api-v1", "0.104.0+1.21.1"))
-    modImplementation(fabricApi.module("fabric-entity-events-v1", "0.104.0+1.21.1"))
-    modImplementation(fabricApi.module("fabric-events-interaction-v0", "0.104.0+1.21.1"))
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.116.7+1.21.1")
+    modImplementation(fabricApi.module("fabric-command-api-v2", "0.116.7+1.21.1"))
+    modImplementation(fabricApi.module("fabric-resource-loader-v0", "0.116.7+1.21.1"))
+    modImplementation(fabricApi.module("fabric-lifecycle-events-v1", "0.116.7+1.21.1"))
+    modImplementation(fabricApi.module("fabric-networking-api-v1", "0.116.7+1.21.1"))
+    modImplementation(fabricApi.module("fabric-entity-events-v1", "0.116.7+1.21.1"))
+    modImplementation(fabricApi.module("fabric-events-interaction-v0", "0.116.7+1.21.1"))
 
-    modImplementation("net.fabricmc:fabric-language-kotlin:1.13.1+kotlin.2.1.10")
-    modImplementation("curse.maven:cobblemon-687131:6125079")
+    modImplementation("net.fabricmc:fabric-language-kotlin:1.13.6+kotlin.2.2.20")
+    //modImplementation("curse.maven:cobblemon-687131:6125079")
+    modImplementation("com.cobblemon:fabric:1.7.0+1.21.1")
 
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.2")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.2")

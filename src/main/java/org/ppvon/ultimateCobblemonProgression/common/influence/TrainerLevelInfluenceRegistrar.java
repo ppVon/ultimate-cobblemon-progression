@@ -12,11 +12,16 @@ public class TrainerLevelInfluenceRegistrar {
     private static boolean registered = false;
 
     public static void registerOnce() {
+        // no-op at least while testing mixin strategy
+        return;
+        /*
         if (registered) return;
         var list = PlayerSpawnerFactory.INSTANCE.getInfluenceBuilders();
         if (!list.contains(TL_BUILDER)) {
             list.addFirst(TL_BUILDER);
         }
         registered = true;
+
+         */
     }
 }

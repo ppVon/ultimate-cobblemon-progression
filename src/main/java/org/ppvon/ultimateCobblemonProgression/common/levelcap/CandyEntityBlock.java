@@ -54,7 +54,7 @@ public final class CandyEntityBlock {
             int cap = TierRegistry.getCapForTier(trainerTier);
             if (mon.getLevel() >= cap) {
                 sp.displayClientMessage(Component.literal(
-                        mon.getDisplayName().getString() + " is at your Trainer cap (" + cap + "). Candy blocked."
+                        mon.getDisplayName(false).getString() + " is at your Trainer cap (" + cap + "). Candy blocked."
                 ), true);
                 return InteractionResult.FAIL;
             }

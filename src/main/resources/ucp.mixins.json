@@ -4,7 +4,8 @@
   "package": "org.ppvon.ultimateCobblemonProgression.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "SpeciesTierMixin"
+    "SpeciesTierMixin",
+    "BasicSpawnerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

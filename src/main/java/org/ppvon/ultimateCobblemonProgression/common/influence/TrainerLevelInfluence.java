@@ -5,8 +5,8 @@ import com.cobblemon.mod.common.pokemon.Species;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import com.cobblemon.mod.common.api.spawning.SpawnBucket;
-import com.cobblemon.mod.common.api.spawning.context.SpawningContext;
-import com.cobblemon.mod.common.api.spawning.context.calculators.SpawningContextCalculator;
+import com.cobblemon.mod.common.api.spawning.position.SpawnablePosition;
+import com.cobblemon.mod.common.api.spawning.position.calculators.SpawnablePositionCalculator;
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail;
 import com.cobblemon.mod.common.api.spawning.detail.SpawnAction;
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail;
@@ -113,7 +113,7 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
         return (f < WEIGHT_MIN_FACTOR.get()) ? WEIGHT_MIN_FACTOR.get() : f;
     }
 
-    private ServerPlayer resolvePlayer(SpawningContext ctx) {
+    private ServerPlayer resolvePlayer(SpawnablePosition ctx) {
         var cause = ctx.getCause();
         if (cause != null) {
             Entity e = cause.getEntity();
@@ -129,7 +129,7 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
         return null;
     }
 
-    private boolean allowDetail(SpawnDetail detail, SpawningContext ctx) {
+    private boolean allowDetail(SpawnDetail detail, SpawnablePosition ctx) {
         if (!(detail instanceof PokemonSpawnDetail psd)) return true;
 
         String speciesStr = psd.getPokemon().getSpecies();
@@ -155,7 +155,7 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
     }
 
     @Override
-    public boolean affectSpawnable(@NotNull SpawnDetail spawnDetail, @NotNull SpawningContext spawningContext) {
+    public boolean affectSpawnable(@NotNull SpawnDetail spawnDetail, @NotNull SpawnablePosition spawningContext) {
         if(!ConfigLoader.DO_SPECIES_BLOCKING.get()) {
             return true;
         }
@@ -164,7 +164,7 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
 
     @Override
     public float affectWeight(@NotNull SpawnDetail spawnDetail,
-                              @NotNull SpawningContext ctx,
+                              @NotNull SpawnablePosition ctx,
                               float currentWeight) {
         if (!ConfigLoader.DO_WEIGHT_SCALING.get()) {
             return currentWeight;
@@ -197,7 +197,7 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
     }
 
     @Override
-    public void affectSpawn(@NotNull Entity entity) {
+    public void affectSpawn(@NotNull SpawnAction<?> action, @NotNull Entity entity) {
         if(!ConfigLoader.DO_LEVEL_SCALING.get()) {
             return;
         }
@@ -247,15 +247,17 @@ public final class TrainerLevelInfluence implements SpawningInfluence {
         }
     }
 
-    @Override public void affectAction(@NotNull SpawnAction<?> spawnAction) { /* no-op */ }
-    @Override public float affectBucketWeight(@NotNull SpawnBucket spawnBucket, float v) { return v; }
 
+    //@Override public void affectAction(@NotNull SpawnAction<?> spawnAction) { /* no-op */ }
+
+    /*
     @Override
     public boolean isAllowedPosition(@NotNull ServerLevel level,
                                      @NotNull BlockPos pos,
-                                     @NotNull SpawningContextCalculator<?, ?> calc) {
+                                     @NotNull SpawnablePositionCalculator<?, ?> calc) {
         return true;
     }
+    */
 
-    @Override public boolean isExpired() { return false; }
+    //@Override public boolean isExpired() { return false; }
 }
