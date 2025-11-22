@@ -2,8 +2,9 @@ package org.ppvon.ultimateCobblemonProgression.common.levelcap;
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.api.Priority;
-import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent;
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedEvent.Pre;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import kotlin.jvm.functions.Function1;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponents;
@@ -20,10 +21,10 @@ public final class ExpCapListener {
     private static final int MSG_COOLDOWN = 80;
 
     public static void register() {
-        CobblemonEvents.EXPERIENCE_GAINED_EVENT_PRE.subscribe(Priority.HIGHEST, ExpCapListener::onPreExp);
+        CobblemonEvents.EXPERIENCE_GAINED_EVENT_PRE.subscribe(Priority.HIGHEST, (Function1<? super Pre, Unit>) ExpCapListener::onPreExp);
     }
 
-    private static Unit onPreExp(ExperienceGainedPreEvent e) {
+    private static Unit onPreExp(Pre e) {
         if(!ConfigLoader.DO_LEVEL_CAP.get()) {
             return Unit.INSTANCE;
         }
@@ -55,7 +56,7 @@ public final class ExpCapListener {
         Integer last = lastMsgTick.get(sp.getUUID());
         if (last == null || now - last >= MSG_COOLDOWN) {
             sp.displayClientMessage(
-                    Component.literal(mon.getDisplayName().getString() + " — " + msg + cap + ")."),
+                    Component.literal(mon.getDisplayName(false).getString() + " — " + msg + cap + ")."),
                     true
             );
             lastMsgTick.put(sp.getUUID(), now);

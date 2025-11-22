@@ -33,6 +33,7 @@ public class UltimateCobblemonProgression implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
         ConfigLoader.init();
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
