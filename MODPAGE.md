@@ -4,6 +4,10 @@
 
 This mod is designed for **server progression, modpacks, and RPG-style playthroughs**, where players gradually earn access to higher-level and rarer Pokémon as they explore and fill out their Pokédex.
 
+Cobblemon Versions:
+- Cobblemon 1.6.1: ucp-1.2.2
+- Cobblemon 1.7.0: ucp-1.3.0
+
 ---
 
 ## Features
