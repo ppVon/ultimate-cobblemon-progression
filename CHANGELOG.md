@@ -1,8 +1,16 @@
+# UCP 1.3.1
+
+## Features
+
+- Changed `/trainerlevel set` to include a player argument
+  - It is now `/trainerlevel set <player> <new_level>`
+- Added `/trainerlevel promote <player>` which simulates an actual level up and will display the appropriate message to the target
+
 # UCP 1.3.0
 
 Supports (and requires) Cobblemon 1.7!
 
-The rules and spawning affects from this mod still affect pokemon spawned via bait or PokeSnack
+The rules and spawning effects from this mod still affect pokemon spawned via bait or PokeSnack
 
 # UCP 1.2.2
 

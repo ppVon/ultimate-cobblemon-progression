@@ -4,8 +4,12 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelComponentImpl;
@@ -95,13 +99,62 @@ public class UltimateCobblemonProgression implements ModInitializer {
                     )
                     .then(Commands.literal("set")
                             .requires(src -> src.hasPermission(2))
-                            .then(Commands.argument("value", IntegerArgumentType.integer(0, 999))
+                            .then(Commands.argument("player", EntityArgument.player())
+                                    .then(Commands.argument("value", IntegerArgumentType.integer(0, 999))
+                                            .executes(ctx -> {
+                                                ServerPlayer target = EntityArgument.getPlayer(ctx, "player");
+                                                int v = IntegerArgumentType.getInteger(ctx, "value");
+
+                                                TrainerLevelComponents.KEY.get(target).setLevel(v);
+                                                int newLevel = TrainerLevelComponents.KEY.get(target).getLevel();
+
+                                                ctx.getSource().sendSuccess(
+                                                        () -> Component.literal("Set " + target.getGameProfile().getName() + "'s Trainer Level to " + newLevel),
+                                                        true
+                                                );
+
+                                                target.sendSystemMessage(Component.literal(
+                                                        "Your Trainer Level was set to " + newLevel
+                                                ));
+
+                                                return 1;
+                                            })
+                                    )
+                            )
+                    )
+                    .then(Commands.literal("promote")
+                            .requires(src -> src.hasPermission(2))
+                            .then(Commands.argument("player", EntityArgument.player())
                                     .executes(ctx -> {
-                                        ServerPlayer p = ctx.getSource().getPlayerOrException();
-                                        int v = IntegerArgumentType.getInteger(ctx, "value");
-                                        TrainerLevelComponents.KEY.get(p).setLevel(v);
-                                        int newLevel = TrainerLevelComponents.KEY.get(p).getLevel();
-                                        ctx.getSource().sendSuccess(() -> Component.literal("Set Trainer Level to " + newLevel), true);
+                                        CommandSourceStack src = ctx.getSource();
+                                        ServerPlayer target = EntityArgument.getPlayer(ctx, "player");
+
+                                        int current = TrainerLevelComponents.KEY.get(target).getLevel();
+                                        int next = current + 1;
+
+                                        if (TierRegistry.get(next).isEmpty()) {
+                                            src.sendSuccess(
+                                                    () -> Component.literal(
+                                                            target.getGameProfile().getName() +
+                                                                    " is already at the maximum Trainer Level (" + current + ")"
+                                                    ),
+                                                    false
+                                            );
+                                            return 1;
+                                        }
+
+                                        TrainerLevelComponents.KEY.get(target).setLevel(next);
+
+                                        src.sendSuccess(
+                                                () -> Component.literal(
+                                                        "Promoted " + target.getGameProfile().getName() +
+                                                                " to Trainer Level " + next
+                                                ),
+                                                true
+                                        );
+
+                                        target.sendSystemMessage(ProgressionManager.buildChatMessage(target, next));
+
                                         return 1;
                                     })
                             )
@@ -127,5 +180,10 @@ public class UltimateCobblemonProgression implements ModInitializer {
         ExpCapListener.register();
         ProgressionManager.register();
         LOG.info("Done Loading");
+        /*
+        if(FabricLoader.getInstance().isModLoaded("rad-gyms")) {
+            RadGymsCompat.register();
+        }
+         */
     }
 }
