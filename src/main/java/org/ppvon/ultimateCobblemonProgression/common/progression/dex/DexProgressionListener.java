@@ -24,13 +24,19 @@ public final class DexProgressionListener {
     }
 
     private static Unit onDexChanged(PokedexDataChangedEvent event) {
-        if(!ConfigLoader.DO_DEX_PROGRESSION.get()) {
+        if (!ConfigLoader.DO_DEX_PROGRESSION.get()) {
             return Unit.INSTANCE;
         }
+
         AbstractPokedexManager manager = event.getPokedexManager();
 
-        int caughtCount = manager.getGlobalCalculatedValue(CaughtCount.INSTANCE);
-        int seenCount = manager.getGlobalCalculatedValue(SeenCount.INSTANCE);
+        int caughtCount = ConfigLoader.REQUIRE_DEX_CAUGHT.get()
+            ? manager.getGlobalCalculatedValue(CaughtCount.INSTANCE)
+            : 0;
+
+        int seenCount = ConfigLoader.REQUIRE_DEX_SEEN.get()
+            ? manager.getGlobalCalculatedValue(SeenCount.INSTANCE)
+            : 0;
 
         UUID playerUUID = event.getPlayerUUID();
         ServerPlayer player = getPlayer(playerUUID);
@@ -39,5 +45,6 @@ public final class DexProgressionListener {
         ProgressionManager.attemptLevelUp(player, seenCount, caughtCount);
 
         return Unit.INSTANCE;
-    }
+}
+
 }

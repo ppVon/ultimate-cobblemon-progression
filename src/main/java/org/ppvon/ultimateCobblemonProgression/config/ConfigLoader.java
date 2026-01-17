@@ -26,7 +26,9 @@ public final class ConfigLoader {
     // ucp-common.json
     public static Supplier<Boolean> DO_LEVEL_CAP;
     public static Supplier<Boolean> DO_DEX_PROGRESSION;
-
+    public static Supplier<Boolean> REQUIRE_DEX_SEEN;
+    public static Supplier<Boolean> REQUIRE_DEX_CAUGHT;
+    
     private ConfigLoader() {}
 
     public static void init() {
@@ -63,6 +65,8 @@ public final class ConfigLoader {
 
         DO_LEVEL_CAP = () -> COMMON.doLevelCap;
         DO_DEX_PROGRESSION = () -> COMMON.doDexProgression;
+        REQUIRE_DEX_SEEN = () -> COMMON.requireDexSeen;
+        REQUIRE_DEX_CAUGHT = () -> COMMON.requireDexCaught;
     }
 
     public static SpawnConfig spawn() { return SPAWN; }
