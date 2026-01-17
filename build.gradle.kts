@@ -2,14 +2,14 @@ import org.gradle.jvm.tasks.Jar;
 
 plugins {
     id("java")
-    id("dev.architectury.loom") version("1.9-SNAPSHOT")
-    id("architectury-plugin") version("3.4-SNAPSHOT")
+    id("dev.architectury.loom") version ("1.9-SNAPSHOT")
+    id("architectury-plugin") version ("3.4-SNAPSHOT")
     kotlin("jvm") version "2.2.20"
 }
 
 group = "org.ppvon"
 val minecraftVersion = "1.21.1"
-version = "1.3.0"
+version = "1.3.1"
 
 base {
     archivesName.set("ucp-fabric+mc${minecraftVersion}");
@@ -62,6 +62,7 @@ repositories {
     maven("https://maven.ladysnake.org/releases")
     maven ("https://maven.terraformersmc.com/")
     maven("https://www.cursemaven.com")
+    maven("https://api.modrinth.com/maven")
 }
 
 dependencies {
@@ -78,23 +79,29 @@ dependencies {
     modImplementation(fabricApi.module("fabric-events-interaction-v0", "0.116.7+1.21.1"))
 
     modImplementation("net.fabricmc:fabric-language-kotlin:1.13.6+kotlin.2.2.20")
-    //modImplementation("curse.maven:cobblemon-687131:6125079")
+
     modImplementation("com.cobblemon:fabric:1.7.0+1.21.1")
 
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.2")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.2")
 
-    modCompileOnly("com.terraformersmc:modmenu:11.0.3")
-    //modRuntimeOnly("com.terraformersmc:modmenu:11.0.3")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    //modCompileOnly("com.terraformersmc:modmenu:11.0.3")
+    modImplementation("com.terraformersmc:modmenu:11.0.3")
 
     implementation("com.google.code.gson:gson:2.11.0")
-}
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+
+    modRuntimeOnly("dev.architectury:architectury-fabric:13.0.8")
+    include(
+        modRuntimeOnly(
+            "maven.modrinth:admiral:0.4.10+1.21.1+fabric"
+        )!!
+    )
+    modRuntimeOnly("maven.modrinth:rctapi:o44fzA4w")
+
+    modImplementation("maven.modrinth:rad-gyms:3YDEmZwD")
+
+
 }
 
 tasks.processResources {
