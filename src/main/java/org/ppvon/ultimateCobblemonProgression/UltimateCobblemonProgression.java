@@ -17,7 +17,6 @@ import org.ppvon.ultimateCobblemonProgression.common.component.TrainerLevelCompo
 
 import org.ppvon.ultimateCobblemonProgression.common.progression.ProgressionManager;
 import org.ppvon.ultimateCobblemonProgression.common.progression.dex.DexProgressionApi;
-import org.ppvon.ultimateCobblemonProgression.common.radgyms.RadGymsCompat;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierSpeciesApplier;
 import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;

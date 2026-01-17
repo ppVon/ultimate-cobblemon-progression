@@ -85,12 +85,13 @@ dependencies {
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.2")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.2")
 
-    //modCompileOnly("com.terraformersmc:modmenu:11.0.3")
-    modImplementation("com.terraformersmc:modmenu:11.0.3")
+    modCompileOnly("com.terraformersmc:modmenu:11.0.3")
+    //modImplementation("com.terraformersmc:modmenu:11.0.3")
 
     implementation("com.google.code.gson:gson:2.11.0")
 
 
+    /*
     modRuntimeOnly("dev.architectury:architectury-fabric:13.0.8")
     include(
         modRuntimeOnly(
@@ -100,8 +101,7 @@ dependencies {
     modRuntimeOnly("maven.modrinth:rctapi:o44fzA4w")
 
     modImplementation("maven.modrinth:rad-gyms:3YDEmZwD")
-
-
+     */
 }
 
 tasks.processResources {
