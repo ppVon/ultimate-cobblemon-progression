@@ -1,1 +1,76 @@
-/.gradle/
+# =========================
+# Gradle
+# =========================
+.gradle/
+build/
+**/build/
+out/
+
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# =========================
+# Architectury / Loom
+# =========================
+run/
+runs/
+.logs/
+.cache/
+.remapped/
+.mappings/
+.fabric/
+.neoforge/
+architectury-cache/
+
+# Generated mod jars (keep source, ignore outputs)
+*.jar
+*.jar.original
+
+# =========================
+# Minecraft dev junk
+# =========================
+logs/
+crash-reports/
+latest.log
+debug.log
+
+# =========================
+# IDEs
+# =========================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code
+.vscode/
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Kotlin / Java
+# =========================
+*.class
+*.log
+
+# =========================
+# Local env / secrets
+# =========================
+.env
+.env.local
+
+# =========================
+# Windows
+# =========================
+desktop.ini

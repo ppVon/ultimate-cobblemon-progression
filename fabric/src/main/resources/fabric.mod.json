@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "ultimate_cobblemon_progression",
+  "version": "${version}",
+  "name": "Ultimate Cobblemon Progression",
+  "description": "Cobblemon progression system mod.",
+  "authors": [
+    "ppVon"
+  ],
+  "license": "MIT License",
+  "icon": "assets/example/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.ppvon.ucp.fabric.UltimateCobblemonProgressionFabric"
+    ]
+  },
+  "mixins": [
+    "ucp.mixins.json"
+  ],
+  "depends": {
+    "minecraft": "1.21.1",
+    "cobblemon": ">=1.6.0"
+  }
+}
