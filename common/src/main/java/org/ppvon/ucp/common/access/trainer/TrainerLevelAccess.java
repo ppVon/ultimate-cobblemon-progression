@@ -1,7 +1,6 @@
-package org.ppvon.ucp.common.internal.trainer;
+package org.ppvon.ucp.common.access.trainer;
 
 import net.minecraft.server.level.ServerPlayer;
-import org.ppvon.ucp.common.access.trainer.TrainerLevelHolder;
 
 public final class TrainerLevelAccess {
     private static final int DEFAULT_LEVEL = 1;

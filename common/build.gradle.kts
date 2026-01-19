@@ -25,6 +25,8 @@ dependencies {
 
     compileOnly("org.spongepowered:mixin:0.8.5")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
+
+    modImplementation("dev.architectury:architectury:${property("architectury_api_version")}")
 }
 
 /*

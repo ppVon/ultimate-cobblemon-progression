@@ -1,7 +1,7 @@
 package org.ppvon.ucp.common.api.trainer;
 
 import net.minecraft.server.level.ServerPlayer;
-import org.ppvon.ucp.common.internal.trainer.TrainerLevelAccess;
+import org.ppvon.ucp.common.access.trainer.TrainerLevelAccess;
 
 /**
  * Public, stable API for interacting with a player's trainer level.
