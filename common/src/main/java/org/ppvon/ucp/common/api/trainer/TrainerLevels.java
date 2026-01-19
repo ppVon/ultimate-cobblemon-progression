@@ -126,7 +126,7 @@ public final class TrainerLevels {
     private static int clamp(int level) {
         if (level < MIN_LEVEL) return MIN_LEVEL;
 
-        int max = maxLevel; // read volatile once
+        int max = maxLevel;
         if (level > max) return max;
 
         return level;
