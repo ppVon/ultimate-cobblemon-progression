@@ -26,41 +26,7 @@ public final class TrainerLevels {
      */
     private static final int MIN_LEVEL = 1;
 
-    /**
-     * The maximum valid trainer level.
-     *
-     * <p>This value is defined at runtime (e.g. from datapacks) and may change
-     * when datapacks are reloaded. Until explicitly set, it defaults to {@code 1}.
-     */
-    private static volatile int maxLevel = MIN_LEVEL;
-
     private TrainerLevels() {}
-
-    /**
-     * Sets the current maximum valid trainer level.
-     *
-     * <p>This should be called once datapack-driven trainer level data has been
-     * fully loaded or reloaded.
-     *
-     * <p>The provided value is clamped to {@link #MIN_LEVEL} to prevent invalid
-     * configurations.
-     *
-     * @param newMaxLevel the maximum trainer level allowed at runtime
-     */
-    public static void setMaxLevel(int newMaxLevel) {
-        maxLevel = Math.max(MIN_LEVEL, newMaxLevel);
-    }
-
-    /**
-     * Returns the current maximum valid trainer level.
-     *
-     * <p>This reflects the most recently loaded datapack configuration.
-     *
-     * @return the current maximum trainer level
-     */
-    public static int getMaxLevel() {
-        return maxLevel;
-    }
 
     /**
      * Returns the player's trainer level.
@@ -87,7 +53,7 @@ public final class TrainerLevels {
      * Sets the player's trainer level.
      *
      * <p>The provided value is clamped to the valid range defined by
-     * {@link #MIN_LEVEL} and {@link #getMaxLevel()}.
+     * {@link #MIN_LEVEL} and MAX_LEVEL calculated based on the total number of tiers.
      *
      * @param player the server-side player
      * @param level  the desired trainer level
@@ -110,24 +76,29 @@ public final class TrainerLevels {
     public static void ensureInitialized(ServerPlayer player) {
         int raw = TrainerLevelAccess.getRaw(player);
 
+        /* TODO(ppVon): Re-implement when tier data exposes max level
         if (raw < MIN_LEVEL) {
             TrainerLevelAccess.setRaw(player, MIN_LEVEL);
         } else if (raw > maxLevel) {
             TrainerLevelAccess.setRaw(player, maxLevel);
         }
+        */
     }
 
     /**
      * Clamps the given level to the currently valid range.
      *
      * @param level a raw trainer level value
-     * @return a level between {@link #MIN_LEVEL} and {@link #getMaxLevel()}
+     * @return a level between {@link #MIN_LEVEL} and MAX_LEVEL calculated based on the total number of tiers
      */
     private static int clamp(int level) {
         if (level < MIN_LEVEL) return MIN_LEVEL;
 
+        /* TODO(ppVon): Re-implement when tier data exposes max level
         int max = maxLevel;
+
         if (level > max) return max;
+        */
 
         return level;
     }
