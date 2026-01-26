@@ -1,3 +1,8 @@
+# UCP 1.3.2
+
+## Fixes
+-  `/trainerlevel promote @p` no longer displays dex progression if dex progression is turned off in the config
+
 # UCP 1.3.1
 
 ## Features

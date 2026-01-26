@@ -10,6 +10,7 @@ import org.ppvon.ultimateCobblemonProgression.common.progression.dex.DexProgress
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierDef;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.TierRegistry;
 import org.ppvon.ultimateCobblemonProgression.common.tiers.requirements.DexRequirements;
+import org.ppvon.ultimateCobblemonProgression.config.ConfigLoader;
 
 import java.util.Optional;
 
@@ -21,7 +22,6 @@ public final class ProgressionManager {
     }
 
     public static Component buildChatMessage(ServerPlayer player, int newTier) {
-        // Resolve tier data
         Optional<TierDef> tierDefOpt = TierRegistry.get(newTier);
         if (tierDefOpt.isEmpty()) {
             return Component.literal("Trainer Level: " + newTier)
@@ -31,13 +31,11 @@ public final class ProgressionManager {
         TierDef tierDef = tierDefOpt.get();
         int newLevelCap = tierDef.levelCap;
 
-        // How many species were unlocked by reaching this tier
         int newlyUnlockedSpecies = TierRegistry.getRealSpecies(newTier);
 
-        // Next tier requirements (if any)
         Optional<TierDef> nextTierOpt = TierRegistry.get(newTier + 1);
         Optional<DexRequirements> nextTierDexReq =
-                nextTierOpt.map(t -> t.requirements.dex); // may be null depending on your data model
+                nextTierOpt.map(t -> t.requirements.dex);
 
         boolean max = nextTierOpt.isEmpty();
 
@@ -52,8 +50,7 @@ public final class ProgressionManager {
                 .append(Component.literal(String.valueOf(newlyUnlockedSpecies)).withStyle(ChatFormatting.AQUA))
                 .append(Component.literal(" " + pluralize(newlyUnlockedSpecies, "new species", "new species") + " unlocked"));
 
-        // If max tier or no requirements, stop here
-        if (max || nextTierDexReq.isEmpty() || nextTierDexReq.get() == null) {
+        if (max || nextTierDexReq.isEmpty() || nextTierDexReq.get() == null || !ConfigLoader.DO_DEX_PROGRESSION.get()) {
             return header
                     .append(CommonComponents.NEW_LINE).append(levelCapLine)
                     .append(CommonComponents.NEW_LINE).append(unlockedLine);
