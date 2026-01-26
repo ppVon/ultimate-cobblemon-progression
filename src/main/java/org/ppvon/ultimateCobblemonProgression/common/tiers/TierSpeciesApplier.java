@@ -21,7 +21,7 @@ public final class TierSpeciesApplier {
             int tier = e.getKey();
             int realSpecies = 0;
             for (ResourceLocation id : e.getValue().species) {
-                Species sp = PokemonSpecies.INSTANCE.getByIdentifier(id);
+                Species sp = PokemonSpecies.getByIdentifier(id);
                 if (sp != null) {
                     realSpecies += 1;
                     UCPApi.setTier(sp, tier);
