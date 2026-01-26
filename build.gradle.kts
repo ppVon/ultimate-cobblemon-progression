@@ -80,7 +80,7 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-language-kotlin:1.13.6+kotlin.2.2.20")
 
-    modImplementation("com.cobblemon:fabric:1.7.1+1.21.1")
+    modImplementation("com.cobblemon:fabric:1.7.2+1.21.1")
 
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.2")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.2")
