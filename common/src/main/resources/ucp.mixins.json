@@ -3,7 +3,8 @@
   "package": "org.ppvon.ucp.common.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "player.TrainerLevelPlayerMixin"
+    "player.TrainerLevelPlayerMixin",
+    "cobblemon.species.SpeciesTierMixin"
   ],
   "client": [],
   "server": [],

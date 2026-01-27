@@ -11,7 +11,6 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.ppvon.ucp.common.UltimateCobblemonProgression;
 import org.ppvon.ucp.common.api.tiers.Tier;
 import org.slf4j.Logger;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -102,7 +101,7 @@ public final class TierReloadListener extends SimpleJsonResourceReloadListener {
             }
         }
 
-        TierManager.replaceAll(finalLoaded);
+        TierLoadCoordinator.stage(finalLoaded);
 
         LOGGER.info(
                 "Loaded {} tier definition(s). includeDefaults={}, manifestPresent={}",
@@ -124,6 +123,4 @@ public final class TierReloadListener extends SimpleJsonResourceReloadListener {
             return null;
         }
     }
-
-
 }
