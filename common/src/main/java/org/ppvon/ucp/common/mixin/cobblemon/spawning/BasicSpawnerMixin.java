@@ -1,0 +1,36 @@
+package org.ppvon.ucp.common.mixin.cobblemon.spawning;
+
+import com.cobblemon.mod.common.api.spawning.detail.SpawnPool;
+import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence;
+import com.cobblemon.mod.common.api.spawning.spawner.BasicSpawner;
+import org.ppvon.ucp.common.internal.cobblemon.spawning.TrainerLevelInfluence;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
+
+@Mixin(value = BasicSpawner.class, remap = false)
+public abstract class BasicSpawnerMixin {
+    @Shadow
+    public abstract List<SpawningInfluence> getInfluences();
+
+    @Inject(method = "<init>*", at = @At("TAIL"))
+    private void ucp$attachTrainerLevelInfluence(
+            String name,
+            SpawnPool spawnPool,
+            float maxPokemonPerChunk,
+            CallbackInfo ci
+    ) {
+        List<SpawningInfluence> influences = this.getInfluences();
+
+        boolean alreadyPresent = influences.stream()
+                .anyMatch(inf -> inf instanceof TrainerLevelInfluence);
+
+        if (!alreadyPresent) {
+            influences.addFirst(new TrainerLevelInfluence());
+        }
+    }
+}
