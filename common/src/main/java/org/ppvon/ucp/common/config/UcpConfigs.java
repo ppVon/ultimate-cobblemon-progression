@@ -8,8 +8,8 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public final class UltimateCobblemonProgressionConfigs {
-    private UltimateCobblemonProgressionConfigs() {}
+public final class UcpConfigs {
+    private UcpConfigs() {}
     private static Path configDir;
 
     private static final Gson GSON = UltimateCobblemonProgressionGson.get();

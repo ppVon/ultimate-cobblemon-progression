@@ -4,7 +4,7 @@ import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import net.minecraft.server.packs.PackType;
 import org.ppvon.ucp.common.api.event.TierEvents;
-import org.ppvon.ucp.common.config.UltimateCobblemonProgressionConfigs;
+import org.ppvon.ucp.common.config.UcpConfigs;
 import org.ppvon.ucp.common.internal.cobblemon.species.SpeciesTierAssigner;
 import org.ppvon.ucp.common.internal.tiers.TierLoadCoordinator;
 import org.ppvon.ucp.common.internal.tiers.TierReloadListener;
@@ -18,8 +18,8 @@ public class UltimateCobblemonProgression {
     private UltimateCobblemonProgression() {}
 
     public static void init(UltimateCobblemonProgressionPlatform platform) {
-        UltimateCobblemonProgressionConfigs.init(platform.configDir());
-        UltimateCobblemonProgressionConfigs.load();
+        UcpConfigs.init(platform.configDir());
+        UcpConfigs.load();
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new TierReloadListener());
 
         TierEvents.TIERS_UPDATED.on(SpeciesTierAssigner::onTiersUpdated);
