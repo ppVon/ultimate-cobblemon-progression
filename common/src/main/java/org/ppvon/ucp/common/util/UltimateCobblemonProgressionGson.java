@@ -1,4 +1,4 @@
-package org.ppvon.ucp.util;
+package org.ppvon.ucp.common.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

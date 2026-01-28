@@ -10,7 +10,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.ppvon.ucp.common.UltimateCobblemonProgression;
 import org.ppvon.ucp.common.api.tiers.Tier;
-import org.ppvon.ucp.util.UltimateCobblemonProgressionGson;
+import org.ppvon.ucp.common.util.UltimateCobblemonProgressionGson;
 import org.slf4j.Logger;
 import java.util.HashSet;
 import java.util.Map;

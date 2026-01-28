@@ -1,4 +1,4 @@
-package org.ppvon.ucp.util;
+package org.ppvon.ucp.common.util;
 
 import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.reactive.EventObservable;

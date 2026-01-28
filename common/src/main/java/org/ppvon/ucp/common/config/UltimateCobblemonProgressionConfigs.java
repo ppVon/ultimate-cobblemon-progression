@@ -1,7 +1,7 @@
 package org.ppvon.ucp.common.config;
 
 import com.google.gson.Gson;
-import org.ppvon.ucp.util.UltimateCobblemonProgressionGson;
+import org.ppvon.ucp.common.util.UltimateCobblemonProgressionGson;
 
 import java.io.Reader;
 import java.io.Writer;
