@@ -1,6 +1,6 @@
 package org.ppvon.ucp.common.api.event;
 
-import org.ppvon.ucp.common.api.event.util.EventObservableEx;
+import org.ppvon.ucp.util.EventObservableEx;
 import org.ppvon.ucp.common.api.tiers.Tier;
 import java.util.List;
 
