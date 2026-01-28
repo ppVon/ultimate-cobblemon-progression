@@ -2,6 +2,7 @@ package org.ppvon.ucp.common.api.trainer;
 
 import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ucp.common.access.trainer.TrainerLevelAccess;
+import org.ppvon.ucp.common.api.tiers.TierRegistry;
 
 /**
  * Public, stable API for interacting with a player's trainer level.
@@ -76,13 +77,13 @@ public final class TrainerLevels {
     public static void ensureInitialized(ServerPlayer player) {
         int raw = TrainerLevelAccess.getRaw(player);
 
-        /* TODO(ppVon): Re-implement when tier data exposes max level
+        int maxLevel = TierRegistry.maxIndex();
+
         if (raw < MIN_LEVEL) {
             TrainerLevelAccess.setRaw(player, MIN_LEVEL);
         } else if (raw > maxLevel) {
             TrainerLevelAccess.setRaw(player, maxLevel);
         }
-        */
     }
 
     /**
@@ -94,11 +95,9 @@ public final class TrainerLevels {
     private static int clamp(int level) {
         if (level < MIN_LEVEL) return MIN_LEVEL;
 
-        /* TODO(ppVon): Re-implement when tier data exposes max level
-        int max = maxLevel;
+        int maxLevel = TierRegistry.maxIndex();
 
-        if (level > max) return max;
-        */
+        if (level > maxLevel) return maxLevel;
 
         return level;
     }

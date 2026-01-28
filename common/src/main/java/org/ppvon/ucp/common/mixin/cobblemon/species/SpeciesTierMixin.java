@@ -1,6 +1,6 @@
 package org.ppvon.ucp.common.mixin.cobblemon.species;
 
-import com.cobblemon.mod.common.pokemon.Species; // adjust import if your Species is elsewhere
+import com.cobblemon.mod.common.pokemon.Species;
 import org.ppvon.ucp.common.access.cobblemon.species.SpeciesTierHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

@@ -1,7 +1,5 @@
 package org.ppvon.ucp.common;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import net.minecraft.server.packs.PackType;
