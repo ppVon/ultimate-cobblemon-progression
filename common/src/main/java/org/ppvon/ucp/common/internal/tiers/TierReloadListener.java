@@ -10,6 +10,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.ppvon.ucp.common.UltimateCobblemonProgression;
 import org.ppvon.ucp.common.api.tiers.Tier;
+import org.ppvon.ucp.util.UltimateCobblemonProgressionGson;
 import org.slf4j.Logger;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,9 +27,11 @@ public final class TierReloadListener extends SimpleJsonResourceReloadListener {
     private static final ResourceLocation MANIFEST_ID =
             ResourceLocation.fromNamespaceAndPath(UltimateCobblemonProgression.MOD_ID, "manifest");
 
+    private static final Gson GSON = UltimateCobblemonProgressionGson.get();
 
-    public TierReloadListener(Gson gson) {
-        super(gson, DIRECTORY);
+
+    public TierReloadListener() {
+        super(GSON, DIRECTORY);
     }
 
     @Override
