@@ -76,8 +76,7 @@ public final class TrainerLevels {
      */
     public static void ensureInitialized(ServerPlayer player) {
         int raw = TrainerLevelAccess.getRaw(player);
-
-        int maxLevel = TierRegistry.maxIndex();
+        int maxLevel = Math.max(TierRegistry.maxIndex(), MIN_LEVEL);
 
         if (raw < MIN_LEVEL) {
             TrainerLevelAccess.setRaw(player, MIN_LEVEL);
@@ -95,7 +94,7 @@ public final class TrainerLevels {
     private static int clamp(int level) {
         if (level < MIN_LEVEL) return MIN_LEVEL;
 
-        int maxLevel = TierRegistry.maxIndex();
+        int maxLevel = Math.max(TierRegistry.maxIndex(), MIN_LEVEL);
 
         if (level > maxLevel) return maxLevel;
 

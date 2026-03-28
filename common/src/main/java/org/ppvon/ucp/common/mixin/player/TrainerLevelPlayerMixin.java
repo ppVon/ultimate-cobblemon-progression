@@ -17,7 +17,7 @@ public abstract class TrainerLevelPlayerMixin implements TrainerLevelHolder {
     private static final String UCP_TRAINER_LEVEL_KEY = "ucp:trainer_level";
 
     @Unique
-    private int ucp$trainerLevel = 1; // default server-side trainer level
+    private int ucp$trainerLevel = 0; // 0 means "needs initialization" for new and migrated players
 
     @Override
     public int ucp$getTrainerLevel() {

@@ -6,6 +6,9 @@ import net.minecraft.server.packs.PackType;
 import org.ppvon.ucp.common.api.event.TierEvents;
 import org.ppvon.ucp.common.config.UcpConfigs;
 import org.ppvon.ucp.common.internal.cobblemon.species.SpeciesTierAssigner;
+import org.ppvon.ucp.common.internal.levelcap.CandyBlockHandler;
+import org.ppvon.ucp.common.internal.levelcap.ExpCapHandler;
+import org.ppvon.ucp.common.internal.progression.DexProgressionHandler;
 import org.ppvon.ucp.common.internal.tiers.TierLoadCoordinator;
 import org.ppvon.ucp.common.internal.tiers.TierReloadListener;
 import org.slf4j.Logger;
@@ -23,6 +26,9 @@ public class UltimateCobblemonProgression {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new TierReloadListener());
 
         TierEvents.TIERS_UPDATED.on(SpeciesTierAssigner::onTiersUpdated);
+        ExpCapHandler.init();
+        DexProgressionHandler.init();
+        CandyBlockHandler.init();
 
         LifecycleEvent.SERVER_STARTED.register(TierLoadCoordinator::onServerStarted);
         LifecycleEvent.SERVER_STOPPED.register(server -> TierLoadCoordinator.onServerStopped());
