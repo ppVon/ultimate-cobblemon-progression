@@ -15,6 +15,15 @@ loom {
     }
 }
 
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven("https://repo.spongepowered.org/repository/maven-public")
+        }
+        filter { includeGroupAndSubgroups("org.spongepowered") }
+    }
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
     mappings(loom.officialMojangMappings())
@@ -24,7 +33,9 @@ dependencies {
     //testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
 
     compileOnly("org.spongepowered:mixin:0.8.5")
-    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
+    // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
+    compileOnly("io.github.llamalad7:mixinextras-common:0.3.5")
+    annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")
 
     modImplementation("dev.architectury:architectury:${property("architectury_api_version")}")
 }
