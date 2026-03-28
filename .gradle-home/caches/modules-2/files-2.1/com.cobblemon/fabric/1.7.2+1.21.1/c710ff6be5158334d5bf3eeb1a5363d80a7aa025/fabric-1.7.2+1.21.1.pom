@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.cobblemon</groupId>
+  <artifactId>fabric</artifactId>
+  <version>1.7.2+1.21.1</version>
+  <properties>
+    <gitCommit>b597b149c3a227caadd4265408ab2de62e0d0e78</gitCommit>
+  </properties>
+</project>

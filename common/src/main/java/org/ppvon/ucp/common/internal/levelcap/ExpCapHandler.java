@@ -54,11 +54,15 @@ public final class ExpCapHandler {
             return;
         }
 
-        int expToCap = pokemon.getExperienceToLevel(cap);
-        if (event.getExperience() > expToCap) {
-            event.setExperience(expToCap);
+        int deltaToCapLevel = Math.max(0, pokemon.getExperienceToLevel(cap));
+        if (event.getExperience() > deltaToCapLevel) {
+            event.setExperience(deltaToCapLevel);
             notify(owner, pokemon, cap, "XP capped: can't exceed Trainer cap (");
         }
+    }
+
+    public static void onPlayerDisconnect(UUID uuid) {
+        LAST_MESSAGE_TICK.remove(uuid);
     }
 
     private static void notify(ServerPlayer player, Pokemon pokemon, int cap, String prefix) {

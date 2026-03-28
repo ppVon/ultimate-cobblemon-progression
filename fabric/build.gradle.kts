@@ -28,6 +28,7 @@ dependencies {
     modImplementation(fabricApi.module("fabric-command-api-v2", property("fabric_api_version").toString()))
     modImplementation(fabricApi.module("fabric-networking-api-v1", property("fabric_api_version").toString()))
     modImplementation(fabricApi.module("fabric-events-interaction-v0", property("fabric_api_version").toString()))
+    modImplementation(fabricApi.module("fabric-data-attachment-api-v1", property("fabric_api_version").toString()))
 
     //needed for cobblemon
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin")}")

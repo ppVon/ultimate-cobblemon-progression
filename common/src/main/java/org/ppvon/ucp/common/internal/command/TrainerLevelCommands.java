@@ -31,10 +31,13 @@ public final class TrainerLevelCommands {
                                             int requestedLevel = IntegerArgumentType.getInteger(context, "level");
                                             TrainerLevels.set(target, requestedLevel);
                                             int newLevel = TrainerLevels.get(target);
+                                            String clampNote = newLevel != requestedLevel
+                                                    ? " (clamped from " + requestedLevel + "; max tier is " + newLevel + ")"
+                                                    : "";
 
                                             context.getSource().sendSuccess(
                                                     () -> Component.literal("Set " + target.getGameProfile().getName()
-                                                            + "'s Trainer Level to " + newLevel),
+                                                            + "'s Trainer Level to " + newLevel + clampNote),
                                                     true
                                             );
                                             target.sendSystemMessage(Component.literal("Your Trainer Level was set to " + newLevel));

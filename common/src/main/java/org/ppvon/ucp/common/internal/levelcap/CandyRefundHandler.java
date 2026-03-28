@@ -79,5 +79,9 @@ public final class CandyRefundHandler {
         player.displayClientMessage(Component.literal("Candy refunded: target is at your Trainer cap."), true);
     }
 
+    public static void onPlayerDisconnect(UUID uuid) {
+        PENDING.remove(uuid);
+    }
+
     private record Attempt(ResourceLocation itemId, int count, InteractionHand hand, int tick) {}
 }

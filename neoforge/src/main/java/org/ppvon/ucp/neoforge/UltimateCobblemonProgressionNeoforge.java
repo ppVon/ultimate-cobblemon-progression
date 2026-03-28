@@ -7,6 +7,8 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.ppvon.ucp.common.UltimateCobblemonProgression;
 import org.ppvon.ucp.common.internal.command.TrainerLevelCommands;
+import org.ppvon.ucp.common.internal.levelcap.CandyRefundHandler;
+import org.ppvon.ucp.common.internal.levelcap.ExpCapHandler;
 import org.ppvon.ucp.common.internal.trainer.TrainerLevelInitializer;
 
 @Mod(UltimateCobblemonProgression.MOD_ID)
@@ -15,6 +17,7 @@ public class UltimateCobblemonProgressionNeoforge {
         UltimateCobblemonProgression.init(new UltimateCobblemonProgressionNeoforgePlatform());
         NeoForge.EVENT_BUS.addListener(this::onRegisterCommands);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
         NeoForge.EVENT_BUS.addListener(NeoforgeCandyEvents::onEntityInteract);
         NeoForge.EVENT_BUS.addListener(NeoforgeCandyEvents::onRightClickItem);
     }
@@ -26,6 +29,13 @@ public class UltimateCobblemonProgressionNeoforge {
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             TrainerLevelInitializer.initializeOnJoin(player);
+        }
+    }
+
+    private void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            ExpCapHandler.onPlayerDisconnect(player.getUUID());
+            CandyRefundHandler.onPlayerDisconnect(player.getUUID());
         }
     }
 }

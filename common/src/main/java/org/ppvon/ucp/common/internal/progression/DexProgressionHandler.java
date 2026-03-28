@@ -6,7 +6,6 @@ import com.cobblemon.mod.common.api.events.pokemon.PokedexDataChangedEvent;
 import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ucp.common.api.trainer.TrainerLevels;
-import org.ppvon.ucp.common.api.tiers.Tier;
 import org.ppvon.ucp.common.config.UcpConfigs;
 import org.ppvon.ucp.common.internal.trainer.TrainerLevelProgression;
 
@@ -33,20 +32,16 @@ public final class DexProgressionHandler {
             return;
         }
 
-        int currentLevel = TrainerLevels.get(player);
-        Tier nextTier = TrainerLevelProgression.nextTier(currentLevel).orElse(null);
-        if (nextTier == null) {
-            return;
-        }
-
         TrainerLevelProgression.DexCounts counts = TrainerLevelProgression.getDexCounts(event.getPokedexManager());
-        if (!TrainerLevelProgression.meetsRequirements(nextTier.requirements.dex, counts.seen(), counts.caught())) {
+        int currentLevel = TrainerLevels.get(player);
+        int resolvedLevel = TrainerLevelProgression.resolveHighestQualifyingTier(counts.seen(), counts.caught());
+        if (resolvedLevel <= currentLevel) {
             return;
         }
 
-        TrainerLevels.set(player, nextTier.index);
+        TrainerLevels.set(player, resolvedLevel);
         int updatedLevel = TrainerLevels.get(player);
-        if (updatedLevel == currentLevel) {
+        if (updatedLevel <= currentLevel) {
             return;
         }
 

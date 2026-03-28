@@ -6,6 +6,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import org.ppvon.ucp.common.UltimateCobblemonProgression;
 import org.ppvon.ucp.common.UltimateCobblemonProgressionPlatform;
 import org.ppvon.ucp.common.internal.command.TrainerLevelCommands;
+import org.ppvon.ucp.common.internal.levelcap.CandyRefundHandler;
+import org.ppvon.ucp.common.internal.levelcap.ExpCapHandler;
 import org.ppvon.ucp.common.internal.trainer.TrainerLevelInitializer;
 
 public class UltimateCobblemonProgressionFabric implements ModInitializer {
@@ -17,6 +19,10 @@ public class UltimateCobblemonProgressionFabric implements ModInitializer {
                 TrainerLevelCommands.register(dispatcher));
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
                 TrainerLevelInitializer.initializeOnJoin(handler.player));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            ExpCapHandler.onPlayerDisconnect(handler.player.getUUID());
+            CandyRefundHandler.onPlayerDisconnect(handler.player.getUUID());
+        });
         FabricCandyEvents.register();
     }
 }

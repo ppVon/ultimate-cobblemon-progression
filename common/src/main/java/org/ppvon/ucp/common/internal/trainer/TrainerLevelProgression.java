@@ -50,6 +50,10 @@ public final class TrainerLevelProgression {
 
     public static int resolveHighestQualifyingTier(int seen, int caught) {
         List<Tier> tiers = TierRegistry.ordered();
+        if (tiers.isEmpty()) {
+            return 0;
+        }
+
         for (int i = tiers.size() - 1; i >= 0; i--) {
             Tier tier = tiers.get(i);
             if (meetsRequirements(tier.requirements.dex, seen, caught)) {
@@ -79,16 +83,28 @@ public final class TrainerLevelProgression {
 
         Tier next = nextTier.get();
         TierRequirementsDex requirements = next.requirements.dex;
+        MutableComponent message = Component.literal("Trainer Level: " + currentLevel)
+                .append(CommonComponents.NEW_LINE)
+                .append(Component.literal("Next Level: " + next.index + " (Level cap " + next.levelCap + ")"));
 
-        return Component.literal("Trainer Level: " + currentLevel)
-                .append(CommonComponents.NEW_LINE)
-                .append(Component.literal("Next Level: " + next.index + " (Level cap " + next.levelCap + ")"))
-                .append(CommonComponents.NEW_LINE)
-                .append(Component.literal("Pokedex Progress:"))
-                .append(CommonComponents.NEW_LINE)
-                .append(Component.literal(" - Seen: " + counts.seen() + " / " + requirements.seen))
-                .append(CommonComponents.NEW_LINE)
-                .append(Component.literal(" - Caught: " + counts.caught() + " / " + requirements.caught));
+        if (requirements == null || !requirements.hasAny()) {
+            return message.append(CommonComponents.NEW_LINE)
+                    .append(Component.literal("Pokedex Progress: None").withStyle(ChatFormatting.GRAY));
+        }
+
+        message.append(CommonComponents.NEW_LINE)
+                .append(Component.literal("Pokedex Progress:"));
+
+        if (requirements.seen > 0) {
+            message.append(CommonComponents.NEW_LINE)
+                    .append(Component.literal(" - Seen: " + counts.seen() + " / " + requirements.seen));
+        }
+        if (requirements.caught > 0) {
+            message.append(CommonComponents.NEW_LINE)
+                    .append(Component.literal(" - Caught: " + counts.caught() + " / " + requirements.caught));
+        }
+
+        return message;
     }
 
     public static Component buildPromotionMessage(int newLevel) {

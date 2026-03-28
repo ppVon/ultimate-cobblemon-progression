@@ -1,8 +1,5 @@
 package org.ppvon.ucp.common.internal.levelcap;
 
-import com.cobblemon.mod.common.api.Priority;
-import com.cobblemon.mod.common.api.events.CobblemonEvents;
-import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -25,17 +22,7 @@ public final class CandyBlockHandler {
             id("cobblemon", "rare_candy")
     );
 
-    private static boolean initialized;
-
     private CandyBlockHandler() {}
-
-    public static void init() {
-        if (initialized) {
-            return;
-        }
-        initialized = true;
-        CobblemonEvents.EXPERIENCE_CANDY_USE_PRE.subscribe(Priority.HIGHEST, CandyBlockHandler::onCandyUsePre);
-    }
 
     public static boolean isCandy(ItemStack stack) {
         if (stack == null || stack.isEmpty()) {
@@ -64,18 +51,6 @@ public final class CandyBlockHandler {
     public static Component blockedMessage(Pokemon pokemon, int cap) {
         return Component.literal(pokemon.getDisplayName(false).getString()
                 + " is at your Trainer cap (" + cap + "). Candy blocked.");
-    }
-
-    private static void onCandyUsePre(ExperienceCandyUseEvent.Pre event) {
-        ServerPlayer player = event.getPlayer();
-        Pokemon pokemon = event.getPokemon();
-
-        if (!shouldBlock(player, pokemon)) {
-            return;
-        }
-
-        event.cancel();
-        player.displayClientMessage(blockedMessage(pokemon, trainerCap(player)), true);
     }
 
     private static ResourceLocation id(String namespace, String path) {

@@ -61,6 +61,7 @@ public final class TrainerLevels {
      */
     public static void set(ServerPlayer player, int level) {
         TrainerLevelAccess.setRaw(player, clamp(level));
+        TrainerLevelAccess.setInitialized(player, true);
     }
 
     /**

@@ -17,7 +17,13 @@ public abstract class TrainerLevelPlayerMixin implements TrainerLevelHolder {
     private static final String UCP_TRAINER_LEVEL_KEY = "ucp:trainer_level";
 
     @Unique
+    private static final String UCP_INITIALIZED_KEY = "ucp:initialized";
+
+    @Unique
     private int ucp$trainerLevel = 0; // 0 means "needs initialization" for new and migrated players
+
+    @Unique
+    private boolean ucp$initialized = false;
 
     @Override
     public int ucp$getTrainerLevel() {
@@ -29,9 +35,20 @@ public abstract class TrainerLevelPlayerMixin implements TrainerLevelHolder {
         this.ucp$trainerLevel = level;
     }
 
+    @Override
+    public boolean ucp$isTrainerLevelInitialized() {
+        return this.ucp$initialized;
+    }
+
+    @Override
+    public void ucp$setTrainerLevelInitialized(boolean initialized) {
+        this.ucp$initialized = initialized;
+    }
+
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
     private void ucp$saveTrainerLevel(CompoundTag tag, CallbackInfo ci) {
         tag.putInt(UCP_TRAINER_LEVEL_KEY, this.ucp$trainerLevel);
+        tag.putBoolean(UCP_INITIALIZED_KEY, this.ucp$initialized);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
@@ -39,5 +56,7 @@ public abstract class TrainerLevelPlayerMixin implements TrainerLevelHolder {
         if (tag.contains(UCP_TRAINER_LEVEL_KEY, Tag.TAG_INT)) {
             this.ucp$trainerLevel = tag.getInt(UCP_TRAINER_LEVEL_KEY);
         }
+        this.ucp$initialized = tag.contains(UCP_INITIALIZED_KEY, Tag.TAG_BYTE)
+                && tag.getBoolean(UCP_INITIALIZED_KEY);
     }
 }
