@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public class EventObservableEx<T> extends EventObservable<T> {
 
     public void on(Priority priority, Consumer<? super T> listener) {
-        this.subscribe(priority, (Function1<T, Unit>) v -> {
+        this.subscribe(priority, v -> {
             listener.accept(v);
             return Unit.INSTANCE;
         });
