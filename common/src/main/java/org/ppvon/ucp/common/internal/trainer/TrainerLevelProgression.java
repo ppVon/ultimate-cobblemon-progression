@@ -60,7 +60,7 @@ public final class TrainerLevelProgression {
                 return tier.index;
             }
         }
-        return 1;
+        return 0;
     }
 
     public static Optional<Tier> nextTier(int currentLevel) {

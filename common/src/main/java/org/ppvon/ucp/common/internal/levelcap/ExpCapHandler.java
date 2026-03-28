@@ -47,17 +47,13 @@ public final class ExpCapHandler {
             return;
         }
 
-        int currentLevel = pokemon.getLevel();
-        if (currentLevel >= cap) {
-            event.setExperience(0);
-            notify(owner, pokemon, cap, "XP blocked: at Trainer cap (");
-            return;
-        }
-
-        int deltaToCapLevel = Math.max(0, pokemon.getExperienceToLevel(cap));
-        if (event.getExperience() > deltaToCapLevel) {
-            event.setExperience(deltaToCapLevel);
-            notify(owner, pokemon, cap, "XP capped: can't exceed Trainer cap (");
+        int expToForbiddenLevel = Math.max(0, pokemon.getExperienceToLevel(cap + 1));
+        int maxAllowed = Math.max(0, expToForbiddenLevel - 1);
+        if (event.getExperience() > maxAllowed) {
+            event.setExperience(maxAllowed);
+            notify(owner, pokemon, cap, maxAllowed == 0
+                    ? "XP blocked: at Trainer cap ("
+                    : "XP capped: approaching Trainer cap (");
         }
     }
 
