@@ -74,7 +74,6 @@ public final class TrainerLevelProgression {
 
     public static Component buildStatusMessage(ServerPlayer player) {
         int currentLevel = TrainerLevels.get(player);
-        DexCounts counts = getDexCounts(player);
         Optional<Tier> nextTier = nextTier(currentLevel);
         if (nextTier.isEmpty()) {
             return Component.literal("Trainer Level: " + currentLevel + " (MAX)")
@@ -83,9 +82,19 @@ public final class TrainerLevelProgression {
 
         Tier next = nextTier.get();
         TierRequirementsDex requirements = next.requirements.dex;
+
+        String nextLevelLabel = UcpConfigs.common().doLevelCap
+                ? "Next Level: " + next.index + " (Level cap " + next.levelCap + ")"
+                : "Next Level: " + next.index;
         MutableComponent message = Component.literal("Trainer Level: " + currentLevel)
                 .append(CommonComponents.NEW_LINE)
-                .append(Component.literal("Next Level: " + next.index + " (Level cap " + next.levelCap + ")"));
+                .append(Component.literal(nextLevelLabel));
+
+        if (!UcpConfigs.common().doDexProgression) {
+            return message;
+        }
+
+        DexCounts counts = getDexCounts(player);
 
         if (requirements == null || !requirements.hasAny()) {
             return message.append(CommonComponents.NEW_LINE)
@@ -117,12 +126,18 @@ public final class TrainerLevelProgression {
                 .withStyle(ChatFormatting.GREEN)
                 .append(Component.literal(String.valueOf(newLevel)).withStyle(ChatFormatting.BOLD));
 
-        MutableComponent message = header
-                .append(CommonComponents.NEW_LINE)
-                .append(Component.literal(" - New level cap: "))
-                .append(number(currentTier.levelCap))
-                .append(CommonComponents.NEW_LINE)
-                .append(Component.literal(" - " + currentTier.species.size() + " new species unlocked"));
+        MutableComponent message = header;
+
+        if (UcpConfigs.common().doLevelCap) {
+            message.append(CommonComponents.NEW_LINE)
+                    .append(Component.literal(" - New level cap: "))
+                    .append(number(currentTier.levelCap));
+        }
+
+        if (UcpConfigs.spawn().doSpeciesBlocking) {
+            message.append(CommonComponents.NEW_LINE)
+                    .append(Component.literal(" - " + currentTier.species.size() + " new species unlocked"));
+        }
 
         Optional<Tier> nextTier = nextTier(newLevel);
         if (!UcpConfigs.common().doDexProgression || nextTier.isEmpty()) {
