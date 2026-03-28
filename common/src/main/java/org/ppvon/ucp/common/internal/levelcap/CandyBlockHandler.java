@@ -34,7 +34,13 @@ public final class CandyBlockHandler {
 
     public static boolean isAtOrAboveCap(Pokemon pokemon, int trainerLevel) {
         int cap = TierRegistry.getLevelCap(trainerLevel);
-        return cap > 0 && pokemon.getLevel() >= cap;
+        if (cap <= 0) {
+            return false;
+        }
+
+        int expToForbiddenLevel = Math.max(0, pokemon.getExperienceToLevel(cap + 1));
+        int maxAllowed = Math.max(0, expToForbiddenLevel - 1);
+        return maxAllowed == 0;
     }
 
     public static boolean shouldBlock(ServerPlayer player, Pokemon pokemon) {
