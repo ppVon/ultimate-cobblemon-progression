@@ -9,6 +9,7 @@
   ],
   "license": "MIT License",
   "icon": "assets/example/icon.png",
+  "accessWidener": "ucp.accesswidener",
   "environment": "*",
   "entrypoints": {
     "main": [
