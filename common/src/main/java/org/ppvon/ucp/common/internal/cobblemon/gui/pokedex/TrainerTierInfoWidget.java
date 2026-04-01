@@ -7,19 +7,34 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.ppvon.ucp.common.internal.trainer.TrainerLevelProgression;
 
-import static com.cobblemon.mod.common.api.gui.GuiUtilsKt.blitk;
 import static com.cobblemon.mod.common.client.render.RenderHelperKt.drawScaledText;
-import static org.ppvon.ucp.common.UltimateCobblemonProgression.modId;
 
 public class TrainerTierInfoWidget extends SoundlessWidget {
-    private record WidgetData() {
-        public static Integer width = 171;
-        public static Integer height = 20;
-        public static ResourceLocation bg = modId("textures/gui/pokedex_trainer_tier.png");
+    public static class WidgetData {
+        public static int width = 171;
+        public static int height = 20;
+
+        /**
+         * Needed these to be a function to be able to do hot reload whenever i change values
+         * Returns widget bg offset from center of screen at x coordinate
+         *
+         * @return int
+         */
+        public static int bgOffsetX() {
+            return 174;
+        }
+
+        /**
+         * Returns widget bg offset from center of screen at y coordinate
+         *
+         * @return int
+         */
+        public static int bgOffsetY() {
+            return 8;
+        }
     }
 
     private int screenMiddleX;
@@ -39,19 +54,6 @@ public class TrainerTierInfoWidget extends SoundlessWidget {
     @Override
     protected void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
         PoseStack matrices = context.pose();
-
-        blitk(
-                matrices,
-                WidgetData.bg,
-                this.widgetLeftX + 86,
-                this.widgetTopY - 102,
-                20,
-                171,
-                0,
-                0,
-                171,
-                20
-        );
 
         drawScaledText(
                 context,

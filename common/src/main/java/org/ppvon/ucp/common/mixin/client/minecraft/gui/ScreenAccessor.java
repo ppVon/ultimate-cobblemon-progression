@@ -15,6 +15,7 @@ public interface ScreenAccessor {
     @Accessor("height")
     int ucp$height();
 
+    @SuppressWarnings("UnusedReturnValue")
     @Invoker("addRenderableWidget")
     <T extends GuiEventListener & Renderable & NarratableEntry> T ucp$addRenderableWidget(T guiEventListener);
 }
