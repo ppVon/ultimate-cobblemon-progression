@@ -6,6 +6,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
 import org.ppvon.ucp.common.internal.cobblemon.gui.pokedex.TrainerTierInfoWidget;
+import org.ppvon.ucp.common.internal.network.UCPNetwork;
+import org.ppvon.ucp.common.internal.network.client.payload.PokedexOpenC2S;
 import org.ppvon.ucp.common.mixin.client.minecraft.gui.ScreenAccessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -60,7 +62,7 @@ public class PokedexTrainerTierMixin {
 
         int x = (width - BASE_WIDTH) / 2;
         int y = (height - BASE_HEIGHT) / 2;
-
+        UCPNetwork.sendToServer(new PokedexOpenC2S());
         TrainerTierInfoWidget trainerTierInfo = new TrainerTierInfoWidget(x, y, lang("ui.pokedex.pokemon_info"));
 
         ((ScreenAccessor) this).ucp$addRenderableWidget(trainerTierInfo);

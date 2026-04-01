@@ -13,7 +13,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.ppvon.ucp.fabric.UltimateCobblemonProgressionFabric"
+      "org.ppvon.ucp.fabric.UltimateCobblemonProgressionFabric::initialize"
+    ],
+    "client": [
+      "org.ppvon.ucp.fabric.client.UltimateCobblemonProgressionClientFabric::initialize"
     ]
   },
   "mixins": [

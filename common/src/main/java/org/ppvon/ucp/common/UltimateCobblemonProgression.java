@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 public class UltimateCobblemonProgression {
     public static final String MOD_ID = "ultimate_cobblemon_progression";
     public static final Logger LOGGER = LoggerFactory.getLogger("UCP");
+    public static UltimateCobblemonProgressionPlatform platform;
 
     public static ResourceLocation modId(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
@@ -26,6 +27,7 @@ public class UltimateCobblemonProgression {
     }
 
     public static void init(UltimateCobblemonProgressionPlatform platform) {
+        UltimateCobblemonProgression.platform = platform;
         UcpConfigs.init(platform.configDir());
         UcpConfigs.load();
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new TierReloadListener());

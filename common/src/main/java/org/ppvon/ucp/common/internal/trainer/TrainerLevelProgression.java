@@ -14,6 +14,7 @@ import org.ppvon.ucp.common.api.tiers.Tier;
 import org.ppvon.ucp.common.api.tiers.TierRegistry;
 import org.ppvon.ucp.common.api.tiers.requirements.TierRequirementsDex;
 import org.ppvon.ucp.common.config.UcpConfigs;
+import org.ppvon.ucp.common.internal.network.client.handler.TrainerTierInfoS2CHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -174,4 +175,14 @@ public final class TrainerLevelProgression {
     public record DexCounts(int seen, int caught) {
         public static final DexCounts ZERO = new DexCounts(0, 0);
     }
+
+    /**
+     * Info holder used in client implementation
+     * It gets updated via {@link TrainerTierInfoS2CHandler}
+     *
+     * @param tier current trainer tier
+     * @param totalTiers total tiers amount
+     * @param requirements current requirements to update tier
+     */
+    public record ProgressionInfoHolder(int tier, int totalTiers, DexCounts requirements) {}
 }
