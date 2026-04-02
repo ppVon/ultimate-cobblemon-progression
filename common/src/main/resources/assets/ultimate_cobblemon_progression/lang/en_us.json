@@ -1,0 +1,6 @@
+{
+  "ucp.gui.pokedex.trainer_tier": "%s/%s",
+  "ucp.gui.pokedex.level_cap": "%s",
+  "ucp.gui.pokedex.seen_required": "%s",
+  "ucp.gui.pokedex.caught_required": "%s"
+}

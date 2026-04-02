@@ -1,18 +1,22 @@
 package org.ppvon.ucp.neoforge;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.ppvon.ucp.common.UltimateCobblemonProgression;
+import org.ppvon.ucp.common.client.UltimateCobblemonProgressionClient;
 import org.ppvon.ucp.common.internal.command.TrainerLevelCommands;
 import org.ppvon.ucp.common.internal.levelcap.CandyRefundHandler;
 import org.ppvon.ucp.common.internal.levelcap.ExpCapHandler;
 import org.ppvon.ucp.common.internal.trainer.TrainerLevelInitializer;
+import org.ppvon.ucp.neoforge.client.UltimateCobblemonProgressionClientNeoforge;
 
 @Mod(UltimateCobblemonProgression.MOD_ID)
 public class UltimateCobblemonProgressionNeoforge {
@@ -20,6 +24,10 @@ public class UltimateCobblemonProgressionNeoforge {
         UltimateCobblemonProgressionNeoforgePlatform platform = new UltimateCobblemonProgressionNeoforgePlatform();
         UltimateCobblemonProgression.init(platform);
         modBus.addListener((RegisterPayloadHandlersEvent event) -> platform.networkManager().registerMessages(event));
+
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            UltimateCobblemonProgressionClient.getInstance().init(new UltimateCobblemonProgressionClientNeoforge());
+        }
     }
 
     @SubscribeEvent

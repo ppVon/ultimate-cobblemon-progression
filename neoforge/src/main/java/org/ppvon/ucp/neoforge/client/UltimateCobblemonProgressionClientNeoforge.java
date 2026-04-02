@@ -6,6 +6,6 @@ import org.ppvon.ucp.common.client.UltimateCobblemonProgressionClientPlatform;
 public class UltimateCobblemonProgressionClientNeoforge implements UltimateCobblemonProgressionClientPlatform {
     @Override
     public void initialize() {
-        (new UltimateCobblemonProgressionClient()).init(this);
+        UltimateCobblemonProgressionClient.getInstance().init(this);
     }
 }

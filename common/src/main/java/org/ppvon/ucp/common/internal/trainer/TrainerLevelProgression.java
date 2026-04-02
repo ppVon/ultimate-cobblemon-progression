@@ -184,5 +184,5 @@ public final class TrainerLevelProgression {
      * @param totalTiers total tiers amount
      * @param requirements current requirements to update tier
      */
-    public record ProgressionInfoHolder(int tier, int totalTiers, DexCounts requirements) {}
+    public record ProgressionInfoHolder(int tier, int totalTiers, int levelCap, DexCounts requirements) {}
 }
