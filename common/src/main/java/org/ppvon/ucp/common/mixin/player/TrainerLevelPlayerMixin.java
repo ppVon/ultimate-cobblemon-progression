@@ -46,17 +46,17 @@ public abstract class TrainerLevelPlayerMixin implements TrainerLevelHolder {
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
-    private void ucp$saveTrainerLevel(CompoundTag tag, CallbackInfo ci) {
-        tag.putInt(UCP_TRAINER_LEVEL_KEY, this.ucp$trainerLevel);
-        tag.putBoolean(UCP_INITIALIZED_KEY, this.ucp$initialized);
+    private void ucp$saveTrainerLevel(CompoundTag compoundTag, CallbackInfo ci) {
+        compoundTag.putInt(UCP_TRAINER_LEVEL_KEY, this.ucp$trainerLevel);
+        compoundTag.putBoolean(UCP_INITIALIZED_KEY, this.ucp$initialized);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
-    private void ucp$loadTrainerLevel(CompoundTag tag, CallbackInfo ci) {
-        if (tag.contains(UCP_TRAINER_LEVEL_KEY, Tag.TAG_INT)) {
-            this.ucp$trainerLevel = tag.getInt(UCP_TRAINER_LEVEL_KEY);
+    private void ucp$loadTrainerLevel(CompoundTag compoundTag, CallbackInfo ci) {
+        if (compoundTag.contains(UCP_TRAINER_LEVEL_KEY, Tag.TAG_INT)) {
+            this.ucp$trainerLevel = compoundTag.getInt(UCP_TRAINER_LEVEL_KEY);
         }
-        this.ucp$initialized = tag.contains(UCP_INITIALIZED_KEY, Tag.TAG_BYTE)
-                && tag.getBoolean(UCP_INITIALIZED_KEY);
+        this.ucp$initialized = compoundTag.contains(UCP_INITIALIZED_KEY, Tag.TAG_BYTE)
+                && compoundTag.getBoolean(UCP_INITIALIZED_KEY);
     }
 }

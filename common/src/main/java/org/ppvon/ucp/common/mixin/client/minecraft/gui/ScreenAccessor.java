@@ -10,11 +10,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Screen.class)
 public interface ScreenAccessor {
-    @Accessor("width")
-    int ucp$width();
-    @Accessor("height")
-    int ucp$height();
-
     @SuppressWarnings("UnusedReturnValue")
     @Invoker("addRenderableWidget")
     <T extends GuiEventListener & Renderable & NarratableEntry> T ucp$addRenderableWidget(T guiEventListener);

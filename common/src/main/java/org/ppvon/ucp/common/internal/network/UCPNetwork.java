@@ -2,14 +2,13 @@ package org.ppvon.ucp.common.internal.network;
 
 import com.cobblemon.mod.common.api.net.NetworkPacket;
 import com.cobblemon.mod.common.net.PacketRegisterInfo;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ucp.common.UltimateCobblemonProgression;
-import org.ppvon.ucp.common.UltimateCobblemonProgressionPlatform;
 import org.ppvon.ucp.common.internal.network.client.handler.TrainerTierInfoS2CHandler;
-import org.ppvon.ucp.common.internal.network.client.payload.PokedexOpenC2S;
-import org.ppvon.ucp.common.internal.network.server.handler.PokedexOpenC2SHandler;
+import org.ppvon.ucp.common.internal.network.client.payload.AnnounceClientPresenceC2S;
+import org.ppvon.ucp.common.internal.network.client.payload.RequestTierDataC2S;
+import org.ppvon.ucp.common.internal.network.server.handler.AnnounceClientPresenceC2SHandler;
+import org.ppvon.ucp.common.internal.network.server.handler.RequestTierDataC2SHandler;
 import org.ppvon.ucp.common.internal.network.server.payload.TrainerTierInfoS2C;
 
 import java.util.ArrayList;
@@ -47,9 +46,16 @@ public class UCPNetwork {
     private static List<PacketRegisterInfo<?>> generateC2SPacketInfoList() {
         List<PacketRegisterInfo<?>> packets = new ArrayList<>();
         packets.add(new PacketRegisterInfo<>(
-                PokedexOpenC2S.ID,
-                PokedexOpenC2S::decode,
-                new PokedexOpenC2SHandler(),
+                AnnounceClientPresenceC2S.ID,
+                AnnounceClientPresenceC2S::decode,
+                new AnnounceClientPresenceC2SHandler(),
+                null
+        ));
+
+        packets.add(new PacketRegisterInfo<>(
+                RequestTierDataC2S.ID,
+                RequestTierDataC2S::decode,
+                new RequestTierDataC2SHandler(),
                 null
         ));
         LOGGER.info("added c2s!");

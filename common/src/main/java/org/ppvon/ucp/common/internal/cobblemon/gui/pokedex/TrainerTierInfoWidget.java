@@ -1,168 +1,140 @@
 package org.ppvon.ucp.common.internal.cobblemon.gui.pokedex;
 
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.ppvon.ucp.common.client.UltimateCobblemonProgressionClient;
 import org.ppvon.ucp.common.internal.trainer.TrainerLevelProgression;
 
+import static com.cobblemon.mod.common.client.gui.pokedex.PokedexTooltipKt.renderTooltip;
+import static com.cobblemon.mod.common.util.LocalizationUtilsKt.lang;
 import static org.ppvon.ucp.common.UltimateCobblemonProgression.modId;
+import static org.ppvon.ucp.common.config.ClientConfig.WidgetParams;
 
 public class TrainerTierInfoWidget extends SoundlessWidget {
+    // Icons
+    private static final ResourceLocation TRAINER_TIER_ICON = modId("textures/icon/trainer_tier.png");
+    private static final ResourceLocation LEVEL_CAP_ICON = modId("textures/icon/level_cap.png");
+    private static final ResourceLocation SEEN_REQUIRED_ICON = modId("textures/icon/seen_required.png");
+    private static final ResourceLocation CAUGHT_REQUIRED_ICON = modId("textures/icon/caught_required.png");
 
-    public static class WidgetData {
-        public static ResourceLocation TRAINER_TIER_ICON = modId("textures/icon/trainer_tier.png");
-        public static ResourceLocation LEVEL_CAP_ICON = modId("textures/icon/level_cap.png");
-        public static ResourceLocation SEEN_REQUIRED_ICON = modId("textures/icon/seen_required.png");
-        public static ResourceLocation CAUGHT_REQUIRED_ICON = modId("textures/icon/caught_required.png");
+    // Tooltips
+    private static final MutableComponent TRAINER_TIER_TOOLTIP = Component.translatable("ucp.gui.pokedex.trainer_tier.tooltip").copy();
+    private static final MutableComponent LEVEL_CAP_TOOLTIP = Component.translatable("ucp.gui.pokedex.level_cap.tooltip").copy();
+    private static final MutableComponent SEEN_REQUIRED_TOOLTIP = Component.translatable("ucp.gui.pokedex.seen_required.tooltip").copy();
+    private static final MutableComponent CAUGHT_REQUIRED_TOOLTIP = Component.translatable("ucp.gui.pokedex.caught_required.tooltip").copy();
 
-        public static int width = 171;
-        public static int height = 20;
 
-        /**
-         * Needed these to be a function to be able to do hot reload whenever i change values
-         * Returns widget bg offset from center of screen at x coordinate
-         *
-         * @return int
-         */
-        public static int bgOffsetX() {
-            return 174;
-        }
+    private TrainerLevelProgression.ProgressionInfoHolder progressionInfo;
 
-        public static int bgVariantOffsetX() {
-            return 328;
-        }
-
-        public static int bgVariantSizeX() {
-            return 16;
-        }
-
-        /**
-         * Returns widget bg offset from center of screen at y coordinate
-         *
-         * @return int
-         */
-        public static int bgOffsetY() {
-            return 8;
-        }
-        public static int bgVariantOffsetY() {
-            return -5;
-        }
-        public static int bgVariantSizeY() {
-            return 12;
-        }
-
-        public static int ICON_LABEL_WIDGET_WIDTH() {
-            return 40;
-        }
-
-        public static int ICON_LABEL_WIDGET_HEIGHT() {
-            return 10;
-        }
-
-        public static int ICON_LABEL_WIDGET_OFFSET() {
-            return 34;
-        }
-    }
-
-    /**
-     * we always have that one regardless of config (for now)
-     * the rest are determined by config
-     */
-    private final IconLabelComboWidget trainerTier;
+    private IconLabelComboWidget trainerTier;
     private IconLabelComboWidget levelCap;
     private IconLabelComboWidget seenRequirement;
     private IconLabelComboWidget caughtRequirement;
 
-    public TrainerTierInfoWidget(int pX, int pY, @NotNull Component component) {
-        super(pX, pY, WidgetData.width, WidgetData.height, component);
+    public TrainerTierInfoWidget(int pX, int pY) {
+        super(pX, pY, WidgetParams.width(), WidgetParams.height(), lang("ui.pokedex.pokemon_info"));
 
-        int screenMiddleX = Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2;
-        int screenMiddleY = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 2;
-        int widgetLeftX = screenMiddleX - (WidgetData.width / 2) + 122;
-        int widgetTopY = screenMiddleY - (WidgetData.height / 2) - 98;
-        int nextWidgetX = 0;
-
-        TrainerLevelProgression.ProgressionInfoHolder progressionInfo = UltimateCobblemonProgressionClient.trainerProgression;
+        if (UltimateCobblemonProgressionClient.trainerProgression == null) return;
+        this.progressionInfo = UltimateCobblemonProgressionClient.trainerProgression;
 
         this.trainerTier = new IconLabelComboWidget(
-                WidgetData.TRAINER_TIER_ICON,
+                TRAINER_TIER_ICON,
                 Component.translatable("ucp.gui.pokedex.trainer_tier", progressionInfo.tier(), progressionInfo.totalTiers()),
-                widgetLeftX + nextWidgetX,
-                widgetTopY,
-                WidgetData.ICON_LABEL_WIDGET_WIDTH(),
-                WidgetData.ICON_LABEL_WIDGET_HEIGHT()
+                WidgetParams.trainerLevelOffsetX(),
+                WidgetParams.trainerLevelOffsetY(),
+                WidgetParams.trainerLevelWidth(),
+                WidgetParams.trainerLevelHeight()
         );
-
         this.addWidget(this.trainerTier);
-        nextWidgetX += (WidgetData.ICON_LABEL_WIDGET_OFFSET() - 4);
 
         if (progressionInfo.levelCap() > -1) {
             this.levelCap = new IconLabelComboWidget(
-                    WidgetData.LEVEL_CAP_ICON,
+                    LEVEL_CAP_ICON,
                     Component.translatable(
                             "ucp.gui.pokedex.level_cap",
                             StringUtils.leftPad(String.valueOf(progressionInfo.levelCap()), 3, "0")
                     ),
-                    widgetLeftX + nextWidgetX,
-                    widgetTopY,
-                    WidgetData.ICON_LABEL_WIDGET_WIDTH(),
-                    WidgetData.ICON_LABEL_WIDGET_HEIGHT()
+                    WidgetParams.levelCapOffsetX(),
+                    WidgetParams.levelCapOffsetY(),
+                    WidgetParams.levelCapWidth(),
+                    WidgetParams.levelCapHeight()
             );
-
             this.addWidget(levelCap);
-            nextWidgetX += WidgetData.ICON_LABEL_WIDGET_OFFSET();
         }
 
         if (progressionInfo.requirements().seen() > 0) {
             this.seenRequirement = new IconLabelComboWidget(
-                    WidgetData.SEEN_REQUIRED_ICON,
+                    SEEN_REQUIRED_ICON,
                     Component.translatable(
                             "ucp.gui.pokedex.seen_required",
                             StringUtils.leftPad(String.valueOf(progressionInfo.requirements().seen()), 4, "0")
                     ),
-                    widgetLeftX + nextWidgetX,
-                    widgetTopY,
-                    WidgetData.ICON_LABEL_WIDGET_WIDTH(),
-                    WidgetData.ICON_LABEL_WIDGET_HEIGHT()
+                    WidgetParams.seenRequirementOffsetX(),
+                    WidgetParams.seenRequirementOffsetY(),
+                    WidgetParams.seenRequirementWidth(),
+                    WidgetParams.seenRequirementHeight()
             );
-
             this.addWidget(seenRequirement);
-            nextWidgetX += WidgetData.ICON_LABEL_WIDGET_OFFSET();
         }
 
         if (progressionInfo.requirements().caught() > 0) {
             this.caughtRequirement = new IconLabelComboWidget(
-                    WidgetData.CAUGHT_REQUIRED_ICON,
+                    CAUGHT_REQUIRED_ICON,
                     Component.translatable(
                             "ucp.gui.pokedex.caught_required",
                             StringUtils.leftPad(String.valueOf(progressionInfo.requirements().caught()), 4, "0")
                     ),
-                    widgetLeftX + nextWidgetX,
-                    widgetTopY,
-                    WidgetData.ICON_LABEL_WIDGET_WIDTH(),
-                    WidgetData.ICON_LABEL_WIDGET_HEIGHT()
+                    WidgetParams.caughtRequirementOffsetX(),
+                    WidgetParams.caughtRequirementOffsetY(),
+                    WidgetParams.caughtRequirementWidth(),
+                    WidgetParams.caughtRequirementHeight()
             );
 
             this.addWidget(caughtRequirement);
         }
     }
 
+    private void renderComboWidgetTooltip(
+            GuiGraphics guiGraphics,
+            IconLabelComboWidget widget,
+            MutableComponent text,
+            int mouseX,
+            int mouseY,
+            float delta
+    ) {
+        if (widget.isHovered()) {
+            renderTooltip(
+                    guiGraphics,
+                    text,
+                    mouseX,
+                    mouseY,
+                    delta,
+                    -14
+            );
+        }
+    }
+
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        if (progressionInfo == null) return;
+
         trainerTier.render(guiGraphics, mouseX, mouseY, delta);
+        this.renderComboWidgetTooltip(guiGraphics, trainerTier, TRAINER_TIER_TOOLTIP, mouseX, mouseY, delta);
         if (levelCap != null) {
             levelCap.render(guiGraphics, mouseX, mouseY, delta);
+            this.renderComboWidgetTooltip(guiGraphics, levelCap, LEVEL_CAP_TOOLTIP, mouseX, mouseY, delta);
         }
         if (seenRequirement != null) {
             seenRequirement.render(guiGraphics, mouseX, mouseY, delta);
+            this.renderComboWidgetTooltip(guiGraphics, seenRequirement, SEEN_REQUIRED_TOOLTIP, mouseX, mouseY, delta);
         }
         if (caughtRequirement != null) {
             caughtRequirement.render(guiGraphics, mouseX, mouseY, delta);
+            this.renderComboWidgetTooltip(guiGraphics, caughtRequirement, CAUGHT_REQUIRED_TOOLTIP, mouseX, mouseY, delta);
         }
     }
 }

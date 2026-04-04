@@ -1,16 +1,17 @@
 package org.ppvon.ucp.common.mixin.client.cobblemon.gui;
 
 
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker;
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUI;
 import com.cobblemon.mod.common.client.pokedex.PokedexType;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.blaze3d.vertex.PoseStack;
+import kotlin.Unit;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import org.ppvon.ucp.common.config.ClientConfig.WidgetParams;
+import org.ppvon.ucp.common.config.UcpConfigs;
 import org.ppvon.ucp.common.internal.cobblemon.gui.pokedex.TrainerTierInfoWidget;
-import org.ppvon.ucp.common.internal.network.UCPNetwork;
-import org.ppvon.ucp.common.internal.network.client.payload.PokedexOpenC2S;
-import org.ppvon.ucp.common.mixin.client.minecraft.gui.ScreenAccessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,18 +19,22 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.cobblemon.mod.common.api.gui.GuiUtilsKt.blitk;
-import static com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_HEIGHT;
-import static com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_WIDTH;
-import static com.cobblemon.mod.common.util.LocalizationUtilsKt.lang;
+import static org.ppvon.ucp.common.UltimateCobblemonProgression.LOGGER;
 import static org.ppvon.ucp.common.UltimateCobblemonProgression.modId;
 
 @Mixin(PokedexGUI.class)
 public class PokedexTrainerTierMixin {
     @Unique
-    private PokedexType ucp$type;
+    private TrainerTierInfoWidget ucp$trainerTierInfo = new TrainerTierInfoWidget(
+            WidgetParams.offsetX(),
+            WidgetParams.offsetY()
+    );
 
     @Unique
+    private PokedexType ucp$type;
+    @Unique
     private static final ResourceLocation ucp$trainerTierWidgetBg = modId("textures/gui/trainer_tier_widget.png");
+
 
     @Inject(
             method = "<init>(Lcom/cobblemon/mod/common/client/pokedex/PokedexType;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/core/BlockPos;)V",
@@ -37,6 +42,28 @@ public class PokedexTrainerTierMixin {
     )
     public void ucp$capturePokedexType(PokedexType type, ResourceLocation initSpecies, BlockPos blockPos, CallbackInfo ci) {
         this.ucp$type = type;
+
+        if (WidgetParams.debug()) {
+            // resource-intensive
+            ClientTaskTracker.INSTANCE.addTask(
+                    ClientTaskTracker.INSTANCE.taskBuilder()
+                            .infiniteIterations()
+                            .interval(1f) // reload every 1 second
+                            .execute((task) -> {
+                                try {
+                                    UcpConfigs.reloadClient();
+                                    this.ucp$trainerTierInfo = new TrainerTierInfoWidget(
+                                            WidgetParams.offsetX(),
+                                            WidgetParams.offsetY()
+                                    );
+                                } catch (Throwable e) {
+                                    LOGGER.info("Config failed to reload: {}", e.getMessage());
+                                }
+                                return Unit.INSTANCE;
+                            })
+                            .build()
+            );
+        }
     }
 
     @Inject(
@@ -50,47 +77,39 @@ public class PokedexTrainerTierMixin {
     )
     public void ucp$renderTrainerTierBg(
             CallbackInfo ci,
-            @Local(name = "matrices") PoseStack matrices,
-            @Local(name = "x") int x,
-            @Local(name = "y") int y
+            @Local(name = "context") GuiGraphics context,
+            @Local(name = "mouseX") int mouseX,
+            @Local(name = "mouseY") int mouseY,
+            @Local(name = "delta") float delta
     ) {
         blitk(
-                matrices,
+                context.pose(),
                 ucp$trainerTierWidgetBg,
-                x + TrainerTierInfoWidget.WidgetData.bgOffsetX(),
-                y - TrainerTierInfoWidget.WidgetData.bgOffsetY(),
-                20,
-                171,
+                WidgetParams.offsetX(),
+                WidgetParams.offsetY(),
+                WidgetParams.height(),
+                WidgetParams.width(),
                 0,
                 0,
-                171,
-                20
+                WidgetParams.width(),
+                WidgetParams.height()
         );
-        blitk(
-                matrices,
-                ucp$trainerTierWidgetVariantBg(ucp$type),
-                x + TrainerTierInfoWidget.WidgetData.bgVariantOffsetX(),
-                y - TrainerTierInfoWidget.WidgetData.bgVariantOffsetY(),
-                TrainerTierInfoWidget.WidgetData.bgVariantSizeY(),
-                TrainerTierInfoWidget.WidgetData.bgVariantSizeX(),
-                0,
-                0,
-                TrainerTierInfoWidget.WidgetData.bgVariantSizeX(),
-                TrainerTierInfoWidget.WidgetData.bgVariantSizeY()
-        );
-    }
+        if (WidgetParams.bgVariantEnabled()) {
+            blitk(
+                    context.pose(),
+                    ucp$trainerTierWidgetVariantBg(ucp$type),
+                    WidgetParams.bgVariantOffsetX(),
+                    WidgetParams.bgVariantOffsetY(),
+                    WidgetParams.bgVariantHeight(),
+                    WidgetParams.bgVariantWidth(),
+                    0,
+                    0,
+                    WidgetParams.bgVariantWidth(),
+                    WidgetParams.bgVariantHeight()
+            );
+        }
 
-    @Inject(method = "init", at = @At("TAIL"))
-    public void ucp$renderTrainerTier(CallbackInfo ci) {
-        int width = ((ScreenAccessor) this).ucp$width();
-        int height = ((ScreenAccessor) this).ucp$height();
-
-        int x = (width - BASE_WIDTH) / 2;
-        int y = (height - BASE_HEIGHT) / 2;
-        UCPNetwork.sendToServer(new PokedexOpenC2S());
-        TrainerTierInfoWidget trainerTierInfo = new TrainerTierInfoWidget(x, y, lang("ui.pokedex.pokemon_info"));
-
-        ((ScreenAccessor) this).ucp$addRenderableWidget(trainerTierInfo);
+        ucp$trainerTierInfo.render(context, mouseX, mouseY, delta);
     }
 
     @Unique
