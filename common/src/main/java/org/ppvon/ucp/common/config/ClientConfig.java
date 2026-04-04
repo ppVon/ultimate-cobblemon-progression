@@ -8,39 +8,39 @@ public class ClientConfig {
     // Widget and variation overlay coords are calculated from center of the screen
     // Reasoning is to preserve widget position regardless of current GUI scale
 
-    public int widgetX = 1;
-    public int widgetY = 1;
-    public int widgetWidth = 1;
-    public int widgetHeight = 1;
+    public int widgetX = 0;
+    public int widgetY = -112;
+    public int widgetWidth = 171;
+    public int widgetHeight = 20;
 
     // Variation bg layer overlays on top of widget bg but stays below the screen
     public boolean enableVariationBg = true;
-    public int variationLayerBgX = 1;
-    public int variationLayerBgY = 1;
-    public int variationLayerBgWidth = 1;
-    public int variationLayerBgHeight = 1;
+    public int variationLayerBgX = 155;
+    public int variationLayerBgY = -100;
+    public int variationLayerBgWidth = 16;
+    public int variationLayerBgHeight = 12;
 
 
     // All widgets are positioned relative to top left corner of widget
-    public int trainerLevelX = 1;
-    public int trainerLevelY = 1;
-    public int trainerLevelWidth = 1;
-    public int trainerLevelHeight = 1;
+    public int trainerLevelX = 38;
+    public int trainerLevelY = 4;
+    public int trainerLevelWidth = 26;
+    public int trainerLevelHeight = 10;
 
-    public int levelCapX = 1;
-    public int levelCapY = 1;
-    public int levelCapWidth = 1;
-    public int levelCapHeight = 1;
+    public int levelCapX = 68;
+    public int levelCapY = 4;
+    public int levelCapWidth = 26;
+    public int levelCapHeight = 10;
 
-    public int seenRequirementX = 1;
-    public int seenRequirementY = 1;
-    public int seenRequirementWidth = 1;
-    public int seenRequirementHeight = 1;
+    public int seenRequirementX = 98;
+    public int seenRequirementY = 4;
+    public int seenRequirementWidth = 30;
+    public int seenRequirementHeight = 10;
 
-    public int caughtRequirementX = 1;
-    public int caughtRequirementY = 1;
-    public int caughtRequirementWidth = 1;
-    public int caughtRequirementHeight = 1;
+    public int caughtRequirementX = 132;
+    public int caughtRequirementY = 4;
+    public int caughtRequirementWidth = 30;
+    public int caughtRequirementHeight = 10;
 
 
     public static class WidgetParams {
