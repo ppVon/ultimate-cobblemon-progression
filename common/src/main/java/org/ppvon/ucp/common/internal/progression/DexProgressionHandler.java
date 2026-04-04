@@ -43,21 +43,27 @@ public final class DexProgressionHandler {
             return;
         }
 
-        if (eligibleClients.contains(player.getUUID())) {
-            notifyClient(player);
-        }
-
         TrainerLevelProgression.DexCounts counts = TrainerLevelProgression.getDexCounts(event.getPokedexManager());
         int currentLevel = TrainerLevels.get(player);
         int resolvedLevel = TrainerLevelProgression.resolveHighestQualifyingTier(counts.seen(), counts.caught());
         if (resolvedLevel <= currentLevel) {
+            if (eligibleClients.contains(player.getUUID())) {
+                notifyClient(player);
+            }
             return;
         }
 
         TrainerLevels.set(player, resolvedLevel);
         int updatedLevel = TrainerLevels.get(player);
         if (updatedLevel <= currentLevel) {
+            if (eligibleClients.contains(player.getUUID())) {
+                notifyClient(player);
+            }
             return;
+        }
+
+        if (eligibleClients.contains(player.getUUID())) {
+            notifyClient(player);
         }
 
         player.displayClientMessage(TrainerLevelProgression.buildPromotionMessage(updatedLevel), false);
