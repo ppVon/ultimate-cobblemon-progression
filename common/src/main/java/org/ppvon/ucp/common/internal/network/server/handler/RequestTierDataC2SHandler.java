@@ -12,8 +12,9 @@ import static org.ppvon.ucp.common.UltimateCobblemonProgression.LOGGER;
 public class RequestTierDataC2SHandler implements ServerNetworkPacketHandler<RequestTierDataC2S> {
     @Override
     public void handle(@NotNull RequestTierDataC2S payload, @NotNull MinecraftServer server, @NotNull ServerPlayer player) {
-        LOGGER.info("opened dex!");
-
-        DexProgressionHandler.notifyClient(player);
+        if (DexProgressionHandler.eligibleClients.contains(player.getUUID())) {
+            LOGGER.info("player client requested tier update");
+            DexProgressionHandler.notifyClient(player);
+        }
     }
 }
