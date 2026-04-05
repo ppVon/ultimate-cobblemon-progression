@@ -38,5 +38,6 @@ public class UltimateCobblemonProgression {
 
         PlatformEvents.SERVER_STARTED.subscribe(TierLoadCoordinator::onServerStarted);
         PlatformEvents.SERVER_STOPPED.subscribe(event -> TierLoadCoordinator.onServerStopped());
+        PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe(event -> DexProgressionHandler.eligibleClients.remove(event.getPlayer().getUUID()));
     }
 }
