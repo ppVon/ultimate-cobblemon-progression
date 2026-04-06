@@ -16,6 +16,7 @@ public final class UcpConfigs {
 
     private static volatile CommonConfig COMMON = new CommonConfig();
     private static volatile SpawnConfig SPAWN = new SpawnConfig();
+    private static volatile ClientConfig CLIENT = new ClientConfig();
 
     public static void init(Path dir) {
         configDir = dir.resolve("ultimate-cobblemon-progression");
@@ -28,6 +29,8 @@ public final class UcpConfigs {
     public static SpawnConfig spawn() {
         return SPAWN;
     }
+
+    public static ClientConfig client() { return CLIENT; }
 
     public static void load() {
         if (configDir == null) {
@@ -44,6 +47,18 @@ public final class UcpConfigs {
                 configDir.resolve("ucp-spawn.json"),
                 SpawnConfig.class,
                 new SpawnConfig()
+        );
+    }
+
+    public static void loadClient() {
+        if (configDir == null) {
+            throw new IllegalStateException("Config manager not initialized");
+        }
+
+        CLIENT = loadJson(
+                configDir.resolve("ucp-client.json"),
+                ClientConfig.class,
+                new ClientConfig()
         );
     }
 
@@ -70,4 +85,6 @@ public final class UcpConfigs {
     public static void reload() {
         load();
     }
+
+    public static void reloadClient() { loadClient(); }
 }

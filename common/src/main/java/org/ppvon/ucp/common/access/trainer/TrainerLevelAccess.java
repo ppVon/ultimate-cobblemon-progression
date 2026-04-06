@@ -22,6 +22,14 @@ public final class TrainerLevelAccess {
         holder(player).ucp$setTrainerLevel(Math.max(level, DEFAULT_LEVEL));
     }
 
+    public static boolean isInitialized(ServerPlayer player) {
+        return holder(player).ucp$isTrainerLevelInitialized();
+    }
+
+    public static void setInitialized(ServerPlayer player, boolean initialized) {
+        holder(player).ucp$setTrainerLevelInitialized(initialized);
+    }
+
     public static void ensureInitialized(ServerPlayer player) {
         TrainerLevelHolder h = holder(player);
         if (h.ucp$getTrainerLevel() <= 0) {

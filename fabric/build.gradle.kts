@@ -1,7 +1,7 @@
 plugins {
     id("dev.architectury.loom")
     id("architectury-plugin")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow")
 }
 
 architectury {
@@ -26,7 +26,9 @@ dependencies {
 
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
     modImplementation(fabricApi.module("fabric-command-api-v2", property("fabric_api_version").toString()))
-
+    modImplementation(fabricApi.module("fabric-networking-api-v1", property("fabric_api_version").toString()))
+    modImplementation(fabricApi.module("fabric-events-interaction-v0", property("fabric_api_version").toString()))
+    modCompileOnly(fabricApi.module("fabric-data-attachment-api-v1", property("fabric_api_version").toString()))
     //needed for cobblemon
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin")}")
     modImplementation("com.cobblemon:fabric:${property("cobblemon_version")}") { isTransitive = false }
@@ -46,16 +48,15 @@ tasks.getByName<Test>("test") {
 }
  */
 
-tasks.processResources {
-    inputs.property("version", project.version)
-
-    filesMatching("fabric.mod.json") {
-        expand(project.properties)
-    }
-
-}
-
 tasks {
+    processResources {
+        inputs.property("version", project.version)
+
+        filesMatching("fabric.mod.json") {
+            expand(project.properties)
+        }
+
+    }
 
     jar {
         archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")

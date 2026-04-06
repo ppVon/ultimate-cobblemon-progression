@@ -23,8 +23,10 @@ runs/
 architectury-cache/
 
 # Generated mod jars (keep source, ignore outputs)
+.gradle-home/
 *.jar
 *.jar.original
+!gradle/wrapper/gradle-wrapper.jar
 
 # =========================
 # Minecraft dev junk
