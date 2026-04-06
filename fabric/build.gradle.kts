@@ -1,7 +1,7 @@
 plugins {
     id("dev.architectury.loom")
     id("architectury-plugin")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow")
 }
 
 architectury {
@@ -48,16 +48,15 @@ tasks.getByName<Test>("test") {
 }
  */
 
-tasks.processResources {
-    inputs.property("version", project.version)
-
-    filesMatching("fabric.mod.json") {
-        expand(project.properties)
-    }
-
-}
-
 tasks {
+    processResources {
+        inputs.property("version", project.version)
+
+        filesMatching("fabric.mod.json") {
+            expand(project.properties)
+        }
+
+    }
 
     jar {
         archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")

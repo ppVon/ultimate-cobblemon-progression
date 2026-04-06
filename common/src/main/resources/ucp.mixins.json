@@ -7,7 +7,10 @@
     "cobblemon.species.SpeciesTierMixin",
     "cobblemon.spawning.BasicSpawnerMixin"
   ],
-  "client": [],
+  "client": [
+    "client.minecraft.gui.ScreenAccessor",
+    "client.cobblemon.gui.PokedexTrainerTierMixin"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

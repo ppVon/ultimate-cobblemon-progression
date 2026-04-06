@@ -1,7 +1,8 @@
 package org.ppvon.ucp.common;
 
-import dev.architectury.event.events.common.LifecycleEvent;
+import com.cobblemon.mod.common.platform.events.PlatformEvents;
 import dev.architectury.registry.ReloadListenerRegistry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import org.ppvon.ucp.common.api.event.TierEvents;
 import org.ppvon.ucp.common.config.UcpConfigs;
@@ -16,10 +17,17 @@ import org.slf4j.LoggerFactory;
 public class UltimateCobblemonProgression {
     public static final String MOD_ID = "ultimate_cobblemon_progression";
     public static final Logger LOGGER = LoggerFactory.getLogger("UCP");
+    public static UltimateCobblemonProgressionPlatform platform;
 
-    private UltimateCobblemonProgression() {}
+    public static ResourceLocation modId(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    private UltimateCobblemonProgression() {
+    }
 
     public static void init(UltimateCobblemonProgressionPlatform platform) {
+        UltimateCobblemonProgression.platform = platform;
         UcpConfigs.init(platform.configDir());
         UcpConfigs.load();
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new TierReloadListener());
@@ -28,8 +36,8 @@ public class UltimateCobblemonProgression {
         ExpCapHandler.init();
         DexProgressionHandler.init();
 
-        LifecycleEvent.SERVER_STARTED.register(TierLoadCoordinator::onServerStarted);
-        LifecycleEvent.SERVER_STOPPED.register(server -> TierLoadCoordinator.onServerStopped());
-
+        PlatformEvents.SERVER_STARTED.subscribe(TierLoadCoordinator::onServerStarted);
+        PlatformEvents.SERVER_STOPPED.subscribe(event -> TierLoadCoordinator.onServerStopped());
+        PlatformEvents.SERVER_PLAYER_LOGOUT.subscribe(event -> DexProgressionHandler.eligibleClients.remove(event.getPlayer().getUUID()));
     }
 }

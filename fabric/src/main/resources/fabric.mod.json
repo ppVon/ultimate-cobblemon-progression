@@ -9,10 +9,14 @@
   ],
   "license": "MIT License",
   "icon": "assets/example/icon.png",
+  "accessWidener": "ucp.accesswidener",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.ppvon.ucp.fabric.UltimateCobblemonProgressionFabric"
+      "org.ppvon.ucp.fabric.UltimateCobblemonProgressionFabric::initialize"
+    ],
+    "client": [
+      "org.ppvon.ucp.fabric.client.UltimateCobblemonProgressionClientFabric::initialize"
     ]
   },
   "mixins": [

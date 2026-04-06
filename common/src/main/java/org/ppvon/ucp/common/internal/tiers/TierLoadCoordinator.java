@@ -1,5 +1,6 @@
 package org.ppvon.ucp.common.internal.tiers;
 
+import com.cobblemon.mod.common.platform.events.ServerEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.server.MinecraftServer;
 import org.ppvon.ucp.common.api.tiers.Tier;
@@ -13,8 +14,8 @@ public final class TierLoadCoordinator {
 
     private TierLoadCoordinator() {}
 
-    public static void onServerStarted(MinecraftServer server) {
-        SERVER = server;
+    public static void onServerStarted(ServerEvent.Started event) {
+        SERVER = event.getServer();
         tryApply();
     }
 
