@@ -1,0 +1,160 @@
+name: Build and publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+env:
+  JAVA_VERSION: "21"
+  GAME_VERSION: "1.21.1"
+  COBBLEMON_VERSION: "1.7.3"
+  MOD_NAME: "Ultimate Cobblemon Progression"
+  BASE_NAME: "ultimate-cobblemon-progression"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.version.outputs.MOD_VERSION }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: temurin
+
+      - name: Setup gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve mod version
+        id: version
+        run: |
+          MOD_VERSION="$(grep -E '^mod_version=' gradle.properties | cut -d '=' -f2- | tr -d '[:space:]')"
+          if [ -z "$MOD_VERSION" ]; then
+            echo "::error::mod_version not found in gradle.properties"
+            exit 1
+          fi
+          echo "MOD_VERSION=$MOD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Resolved mod version: $MOD_VERSION"
+
+      # The jar filenames come from gradle.properties, not the tag. If the two disagree we would
+      # publish a jar whose name and metadata contradict the release - and files on CurseForge
+      # cannot simply be deleted afterwards. Fail before anything is uploaded instead.
+      - name: Verify release tag matches mod_version
+        if: github.event_name == 'release'
+        env:
+          MOD_VERSION: ${{ steps.version.outputs.MOD_VERSION }}
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          if [ "$TAG" != "$MOD_VERSION" ]; then
+            echo "::error::Release tag '${GITHUB_REF_NAME}' does not match mod_version '${MOD_VERSION}' in gradle.properties. Bump gradle.properties or retag, then re-run."
+            exit 1
+          fi
+
+      - name: Build
+        run: ./gradlew build --stacktrace
+
+      - name: Stage artifacts
+        env:
+          V: ${{ steps.version.outputs.MOD_VERSION }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          for loader in fabric neoforge; do
+            jar="${loader}/build/libs/${BASE_NAME}-${loader}-${V}.jar"
+            if [ ! -f "$jar" ]; then
+              echo "::error::Expected jar not found: $jar"
+              ls -la "${loader}/build/libs/" || true
+              exit 1
+            fi
+            cp "$jar" artifacts/
+            # Sources jars are named after the subproject, so normalise them if present.
+            src="${loader}/build/libs/${loader}-${V}-sources.jar"
+            if [ -f "$src" ]; then
+              cp "$src" "artifacts/${BASE_NAME}-${loader}-${V}-sources.jar"
+            fi
+          done
+          ls -la artifacts/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: artifacts/
+
+      - name: Attach jars to GitHub release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${GITHUB_REF_NAME}" artifacts/*.jar --clobber
+
+  publish:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - loader: fabric
+            dependencies: |
+              cobblemon@1.7.0(required){curseforge:687131}{modrinth:MdwFAVRL}
+              architectury-api(required){curseforge:419699}{modrinth:lhGA9TYQ}
+              fabric-api(required)
+          - loader: neoforge
+            dependencies: |
+              cobblemon@1.7.0(required){curseforge:687131}{modrinth:MdwFAVRL}
+              architectury-api(required){curseforge:419699}{modrinth:lhGA9TYQ}
+    steps:
+      - name: Verify publish targets are configured
+        env:
+          CURSEFORGE_ID: ${{ vars.CURSEFORGE_ID }}
+          MODRINTH_ID: ${{ vars.MODRINTH_ID }}
+        run: |
+          missing=0
+          if [ -z "$CURSEFORGE_ID" ]; then
+            echo "::error::Repository variable CURSEFORGE_ID is not set (Settings > Secrets and variables > Actions > Variables)"
+            missing=1
+          fi
+          if [ -z "$MODRINTH_ID" ]; then
+            echo "::error::Repository variable MODRINTH_ID is not set (Settings > Secrets and variables > Actions > Variables)"
+            missing=1
+          fi
+          exit $missing
+
+      - name: Retrieve build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts
+          path: artifacts/
+
+      - name: Publish ${{ matrix.loader }} to CurseForge and Modrinth
+        uses: Kira-NT/mc-publish@v3.3
+        with:
+          name: "${{ env.MOD_NAME }} ${{ needs.build.outputs.version }} (${{ matrix.loader }}) for Cobblemon ${{ env.COBBLEMON_VERSION }}"
+          version: "${{ env.COBBLEMON_VERSION }}_${{ needs.build.outputs.version }}+${{ matrix.loader }}"
+          version-type: release
+          changelog: ${{ github.event.release.body }}
+
+          curseforge-id: ${{ vars.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          modrinth-id: ${{ vars.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          files: artifacts/${{ env.BASE_NAME }}-${{ matrix.loader }}-${{ needs.build.outputs.version }}.jar
+
+          loaders: ${{ matrix.loader }}
+          game-versions: ${{ env.GAME_VERSION }}
+          java: ${{ env.JAVA_VERSION }}
+
+          dependencies: ${{ matrix.dependencies }}

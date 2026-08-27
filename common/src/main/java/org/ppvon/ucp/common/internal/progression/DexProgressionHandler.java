@@ -46,30 +46,33 @@ public final class DexProgressionHandler {
         TrainerLevelProgression.DexCounts counts = TrainerLevelProgression.getDexCounts(event.getPokedexManager());
         int currentLevel = TrainerLevels.get(player);
         int resolvedLevel = TrainerLevelProgression.resolveHighestQualifyingTier(counts.seen(), counts.caught());
-        if (resolvedLevel <= currentLevel) {
-            if (eligibleClients.contains(player.getUUID())) {
-                notifyClient(player);
-            }
-            return;
+        if (resolvedLevel > currentLevel) {
+            TrainerLevels.set(player, resolvedLevel);
         }
 
-        TrainerLevels.set(player, resolvedLevel);
         int updatedLevel = TrainerLevels.get(player);
-        if (updatedLevel <= currentLevel) {
-            if (eligibleClients.contains(player.getUUID())) {
-                notifyClient(player);
-            }
-            return;
-        }
+        notifyClient(player);
 
-        if (eligibleClients.contains(player.getUUID())) {
-            notifyClient(player);
+        if (updatedLevel > currentLevel) {
+            player.displayClientMessage(TrainerLevelProgression.buildPromotionMessage(updatedLevel), false);
         }
-
-        player.displayClientMessage(TrainerLevelProgression.buildPromotionMessage(updatedLevel), false);
     }
 
+    /**
+     * Pushes the player's current tier state to their client.
+     *
+     * <p>Call this after ANY server-side change to a trainer level. The client treats the payload
+     * as the source of truth and never derives a level itself, so a change that skips this is
+     * invisible in the Pokedex widget until the player reconnects.
+     *
+     * <p>Clients without the mod installed never announce themselves and are skipped here, so
+     * callers do not need to check eligibility themselves.
+     */
     public static void notifyClient(ServerPlayer player) {
+        if (player == null || !eligibleClients.contains(player.getUUID())) {
+            return;
+        }
+
         int currentTier = TrainerLevels.get(player);
 
         // if we send -1 to client - it will disable level cap widget for them

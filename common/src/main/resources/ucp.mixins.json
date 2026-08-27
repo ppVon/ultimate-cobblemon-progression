@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "player.TrainerLevelPlayerMixin",
+    "player.TrainerLevelRespawnMixin",
     "cobblemon.species.SpeciesTierMixin",
     "cobblemon.spawning.BasicSpawnerMixin"
   ],
