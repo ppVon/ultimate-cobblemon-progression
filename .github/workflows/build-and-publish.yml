@@ -106,11 +106,13 @@ jobs:
       matrix:
         include:
           - loader: fabric
+            label: Fabric
             dependencies: |
               cobblemon@1.7.0(required){curseforge:687131}{modrinth:MdwFAVRL}
               architectury-api(required){curseforge:419699}{modrinth:lhGA9TYQ}
               fabric-api(required)
           - loader: neoforge
+            label: NeoForge
             dependencies: |
               cobblemon@1.7.0(required){curseforge:687131}{modrinth:MdwFAVRL}
               architectury-api(required){curseforge:419699}{modrinth:lhGA9TYQ}
@@ -140,7 +142,9 @@ jobs:
       - name: Publish ${{ matrix.loader }} to CurseForge and Modrinth
         uses: Kira-NT/mc-publish@v3.3
         with:
-          name: "${{ env.MOD_NAME }} ${{ needs.build.outputs.version }} (${{ matrix.loader }}) for Cobblemon ${{ env.COBBLEMON_VERSION }}"
+          # Modrinth caps version_title length, so keep this short - it matches the naming
+          # already used on the existing published versions.
+          name: "${{ env.MOD_NAME }} ${{ needs.build.outputs.version }} - ${{ matrix.label }}"
           version: "${{ env.COBBLEMON_VERSION }}_${{ needs.build.outputs.version }}+${{ matrix.loader }}"
           version-type: release
           changelog: ${{ github.event.release.body }}
