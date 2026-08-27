@@ -3,8 +3,8 @@
   "ucp.gui.pokedex.level_cap": "%s",
   "ucp.gui.pokedex.seen_required": "%s",
   "ucp.gui.pokedex.caught_required": "%s",
-  "ucp.gui.pokedex.trainer_tier.tooltip": "fill the trainer tooltip or riot",
-  "ucp.gui.pokedex.level_cap.tooltip": "fill the level cap tooltip or riot",
-  "ucp.gui.pokedex.seen_required.tooltip": "fill the seen required tooltip or riot",
-  "ucp.gui.pokedex.caught_required.tooltip": "fill the caught required tooltip or riot"
+  "ucp.gui.pokedex.trainer_tier.tooltip": "Trainer Level",
+  "ucp.gui.pokedex.level_cap.tooltip": "Level Cap",
+  "ucp.gui.pokedex.seen_required.tooltip": "Seen Required",
+  "ucp.gui.pokedex.caught_required.tooltip": "Caught Required"
 }
