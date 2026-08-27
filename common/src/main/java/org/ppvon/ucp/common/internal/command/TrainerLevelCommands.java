@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import org.ppvon.ucp.common.api.trainer.TrainerLevels;
 import org.ppvon.ucp.common.api.tiers.Tier;
+import org.ppvon.ucp.common.internal.progression.DexProgressionHandler;
 import org.ppvon.ucp.common.internal.trainer.TrainerLevelProgression;
 
 public final class TrainerLevelCommands {
@@ -31,6 +32,7 @@ public final class TrainerLevelCommands {
                                             int requestedLevel = IntegerArgumentType.getInteger(context, "level");
                                             TrainerLevels.set(target, requestedLevel);
                                             int newLevel = TrainerLevels.get(target);
+                                            DexProgressionHandler.notifyClient(target);
                                             String clampNote = newLevel != requestedLevel
                                                     ? " (clamped from " + requestedLevel + "; max tier is " + newLevel + ")"
                                                     : "";
@@ -63,6 +65,7 @@ public final class TrainerLevelCommands {
 
                                     TrainerLevels.set(target, nextTier.index);
                                     int newLevel = TrainerLevels.get(target);
+                                    DexProgressionHandler.notifyClient(target);
 
                                     source.sendSuccess(
                                             () -> Component.literal("Promoted " + target.getGameProfile().getName()
