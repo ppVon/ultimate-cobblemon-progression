@@ -21,18 +21,26 @@ public class UltimateCobblemonProgressionFabricNetwork implements NetworkManager
                 .forEach((packet) -> packet.registerPacket(false));
     }
 
+    /**
+     * Registers handlers for C2S payloads. Must run on both the dedicated server and the
+     * integrated server, so it may only touch {@code ServerPlayNetworking}.
+     */
     public void registerServerHandlers() {
-        UCPNetwork.s2cPayloads
-                .stream()
-                .map(FabricPacketInfo::new)
-                .forEach(FabricPacketInfo::registerClientHandler);
-    }
-
-    public void registerClientHandlers() {
         UCPNetwork.c2sPayloads
                 .stream()
                 .map(FabricPacketInfo::new)
                 .forEach(FabricPacketInfo::registerServerHandler);
+    }
+
+    /**
+     * Registers handlers for S2C payloads. Touches {@code ClientPlayNetworking}, which does not
+     * exist in the SERVER environment, so this may only be called from the client entrypoint.
+     */
+    public void registerClientHandlers() {
+        UCPNetwork.s2cPayloads
+                .stream()
+                .map(FabricPacketInfo::new)
+                .forEach(FabricPacketInfo::registerClientHandler);
     }
 
     @Override
