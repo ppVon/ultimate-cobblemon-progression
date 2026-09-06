@@ -1,6 +1,5 @@
 package org.ppvon.ucp.common.mixin.cobblemon.spawning;
 
-import com.cobblemon.mod.common.api.spawning.detail.SpawnPool;
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence;
 import com.cobblemon.mod.common.api.spawning.spawner.BasicSpawner;
 import org.ppvon.ucp.common.internal.cobblemon.spawning.TrainerLevelInfluence;
@@ -18,12 +17,7 @@ public abstract class BasicSpawnerMixin {
     public abstract List<SpawningInfluence> getInfluences();
 
     @Inject(method = "<init>*", at = @At("TAIL"))
-    private void ucp$attachTrainerLevelInfluence(
-            String name,
-            SpawnPool spawnPool,
-            float maxPokemonPerChunk,
-            CallbackInfo ci
-    ) {
+    private void ucp$attachTrainerLevelInfluence(CallbackInfo ci) {
         List<SpawningInfluence> influences = this.getInfluences();
 
         boolean alreadyPresent = influences.stream()
